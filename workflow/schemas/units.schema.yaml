@@ -1,0 +1,36 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: row represents one dataset
+properties:
+  sample:
+    type: string
+    description: sample id
+  type:
+    type: string
+    description: type of sample (N|T|R)
+  platform:
+    type: string
+    description: sequence platform that have been used to generate data, ex NextSeq
+  flowcell:
+    type: string
+    description: flowcell id
+  lane:
+    type: string
+    description: lane number
+  fastq1:
+    type: string
+    description: absolute path to R1 fastq file
+  fastq2:
+    type: string
+    description: absolute path to R2 fastq file
+  adapter:
+    type: string
+    description: one or more sequence, separated by ","
+required:
+  - adapter
+  - fastq1
+  - fastq2
+  - flowcell
+  - lane
+  - platform
+  - sample
+  - type

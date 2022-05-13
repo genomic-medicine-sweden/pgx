@@ -1,0 +1,33 @@
+name: Snakefmt
+
+# Controls when the action will run.
+on:
+   # Triggers the workflow on push or pull request events but only for the master and develop branch
+  push:
+    branches:
+     - develop
+     - master
+  pull_request:
+    branches:
+     - develop
+     - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  snakefmt:
+    name: Snakefmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_SNAKEMAKE_SNAKEFMT: true
+          OUTPUT_FOLDER: .github/linters/report

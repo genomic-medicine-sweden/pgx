@@ -1,0 +1,3 @@
+# Generate a dag graph and place it here
+# snakemake --dag sorted_reads/{A,B}.bam.bai | dot -Tsvg > dag.svg
+# snakemake –rulegraph | dot -Tsvg > dag.svg

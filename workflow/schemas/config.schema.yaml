@@ -1,0 +1,19 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: snakemake configuration file
+type: object
+properties:
+  samples:
+    type: string
+  units:
+    type: string
+  resources:
+    type: string
+    description: Path to resources.yaml file
+  default_container:
+    type: string
+    description: name or path to a default docker/singularity container
+required:
+  - samples
+  - units
+  - resources
+  - default_container

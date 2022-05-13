@@ -1,0 +1,41 @@
+name: pycodestyle
+
+# Controls when the action will run.
+on:
+   # Triggers the workflow on push or pull request events but only for the master and develop branch
+  push:
+    branches:
+     - develop
+     - master
+  pull_request:
+    branches:
+     - develop
+     - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  pycodestyle:
+    name: pycodestyle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
+      - name: Install dependencies
+        run: |
+          conda install -c conda-forge mamba
+      - name: Install requirements.txt
+        run: |
+          pip install -r requirements.txt
+      - name: Install requirements.test.txt
+        run: |
+          pip install -r requirements.test.txt
+      - name: Check python syntax lib
+        run: pycodestyle --max-line-length=130 --statistics workflow/scripts

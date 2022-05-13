@@ -1,0 +1,31 @@
+name: Lint
+
+# Controls when the action will run.
+on:
+   # Triggers the workflow on push or pull request events but only for the master and develop branch
+  push:
+    branches:
+     - develop
+     - master
+  pull_request:
+    branches:
+     - develop
+     - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Linting
+        uses: snakemake/snakemake-github-action@v1.22.0
+        with:
+          directory: ".tests/integration"
+          snakefile: "workflow/Snakefile"
+          args: "--lint"
+          stagein: "pip install -r requirements.txt"

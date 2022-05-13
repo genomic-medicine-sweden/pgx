@@ -1,0 +1,2 @@
+sample	type	run	lane	fastq1	fastq2	adapter
+NA12878	N	1	1	input/R1.fq.gz	input/R2.fq.gz	ACGT

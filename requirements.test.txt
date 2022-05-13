@@ -1,0 +1,3 @@
+snakefmt==0.4.3
+pycodestyle==2.6.0
+pytest==6.2.5
