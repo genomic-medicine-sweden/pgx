@@ -6,10 +6,13 @@ __copyright__ = "Copyright 2022, Massimiliano Volpe & Lauri Mesilaakso"
 __email__ = "massimiliano.volpe@liu.se & lauri.mesilaakso@regionostergotland.se"
 __license__ = "GPL-3"
 
+
 include: "rules/common.smk"
 include: "rules/padd_target_regions.smk"
 
+
 report: "report/workflow.rst"
+
 
 rule all:
     input:

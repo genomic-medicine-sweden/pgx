@@ -15,10 +15,11 @@ rule padd_target_regions:
     params:
         padding=config.get("padd_target_regions", {}).get("padding", "100"),
     log:
-        "pgx/padd_target_regions/{sample}_{type}.output.log"
+        "pgx/padd_target_regions/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "pgx/padd_target_regions/{sample}_{type}.output.benchmark.tsv", config.get("padd_target_regions", {}).get("benchmark_repeats", 1)
+            "pgx/padd_target_regions/{sample}_{type}.output.benchmark.tsv",
+            config.get("padd_target_regions", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("padd_target_regions", {}).get("threads", config["default_resources"]["threads"])
     resources:
