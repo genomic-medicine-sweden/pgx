@@ -1,7 +1,7 @@
 ---
 
- resources: "resources.yaml"
- samples: "samples.tsv"
- units: "units.tsv"
+resources: "config/resources.yaml"
+samples: "config/samples.tsv"
+units: "config/units.tsv"
 
  default_container: "docker://hydragenetics/common:0.0.1"
