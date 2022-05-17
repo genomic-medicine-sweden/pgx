@@ -46,8 +46,9 @@ wildcard_constraints:
 
 
 def compile_output_list(wildcards):
-    return [
-        "pgx/dummy/%s_%s.dummy.txt" % (sample, t)
+    output_files = [
+        "pgx/padd_target_regions/%s_%s_padded_bait_interval.bed" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]
+    return output_files

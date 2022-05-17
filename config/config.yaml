@@ -4,4 +4,8 @@ resources: "config/resources.yaml"
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 
- default_container: "docker://hydragenetics/common:0.0.1"
+default_container: "docker://hydragenetics/common:0.0.1"
+
+padd_target_regions:
+  target_regions: "temp/data/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
+  padding: 100
