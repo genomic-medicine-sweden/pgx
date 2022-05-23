@@ -17,3 +17,20 @@ required:
   - units
   - resources
   - default_container
+
+padd_target_regions:
+    type: object
+    description: parameters for padd_target_regions
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated for padd_target_regions
+      container:
+        type: string
+        description: name or path to docker/singularity padd_target_regions
+      padd_target_regions:
+        type: string
+        description: path to bed file with target target_regions
+      padding:
+        type: integer
+        description: the number bases to add as padding to regions' start and end coordinates
