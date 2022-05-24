@@ -14,7 +14,6 @@ from pathlib import Path
 import logging
 from typing import List
 import pandas as pd
-import csv
 
 
 def switch_coordinates_if_reversed(coordinates: List) -> List:
@@ -73,22 +72,6 @@ def add_padding(target_bed_df: pd.DataFrame, padding: int) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=["CHROM", "START", "END", "ID"])
 
 
-def write_output(input_table: pd.DataFrame, out_file: Path) -> None:
-    """
-    Write pandas df table into a bed file format
-    Args:
-        input_table (pd.DataFrame): Pandas data frame with columns:
-                                    ["CHROM", "START", "END", "ID"]
-        out_file (Path): Path to output file
-    """
-
-    with open(out_file, "w", encoding="utf-8") as f_out:
-        tsv_writer = csv.writer(f_out, delimiter="\t")
-        for _, row in input_table.iterrows():
-            chrom, start, end, region_id = row[0:4]
-            tsv_writer.writerow([chrom, start, end, region_id])
-
-
 if __name__ == '__main__':
     target_bed = snakemake.input.target_regions
     output_file_name = snakemake.output.padded_target_regions
@@ -100,5 +83,5 @@ if __name__ == '__main__':
     bed_df = read_df(Path(target_bed))
     padded_coordinates = add_padding(bed_df, int(padding))
 
-    write_output(padded_coordinates, Path(output_file_name))
-    logging.info(f"Successfully written padded bed file {output_file_name}")
+    padded_coordinates.to_csv(Path(output_file_name), index=False)
+    logging.info(f"Padded bed file written: {output_file_name}")
