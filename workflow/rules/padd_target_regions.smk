@@ -21,9 +21,7 @@ rule padd_target_regions:
             "pgx/padd_target_regions/{sample}_{type}.output.benchmark.tsv",
             config.get("padd_target_regions", {}).get("benchmark_repeats", 1),
         )
-    threads:
-        config.get("padd_target_regions", {}).get(
-            "threads", config["default_resources"]["threads"])
+    threads: config.get("padd_target_regions", {}).get("threads", config["default_resources"]["threads"])
     resources:
         threads=config.get("padd_target_regions", {}).get(
             "threads", config["default_resources"]["threads"]
