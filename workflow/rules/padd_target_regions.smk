@@ -27,9 +27,7 @@ rule padd_target_regions:
         time=config.get("padd_target_regions", {}).get("time", config["default_resources"]["time"]),
         mem_mb=config.get("padd_target_regions", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
         mem_per_cpu=config.get("padd_target_regions", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("padd_target_regions", {}).get(
-            "partition", config["default_resources"]["partition"]
-        ),
+        partition=config.get("padd_target_regions", {}).get("partition", config["default_resources"]["partition"]),
     container:
         config.get("padd_target_regions", {}).get(
             "container", config["default_container"]
