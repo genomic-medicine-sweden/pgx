@@ -25,9 +25,7 @@ rule padd_target_regions:
     resources:
         threads=config.get("padd_target_regions", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("padd_target_regions", {}).get("time", config["default_resources"]["time"]),
-        mem_mb=config.get("padd_target_regions", {}).get(
-            "mem_mb", config["default_resources"]["mem_mb"]
-        ),
+        mem_mb=config.get("padd_target_regions", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
         mem_per_cpu=config.get("padd_target_regions", {}).get(
             "mem_per_cpu", config["default_resources"]["mem_per_cpu"]
         ),
