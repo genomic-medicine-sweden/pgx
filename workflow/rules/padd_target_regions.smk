@@ -23,9 +23,7 @@ rule padd_target_regions:
         )
     threads: config.get("padd_target_regions", {}).get("threads", config["default_resources"]["threads"])
     resources:
-        threads=config.get("padd_target_regions", {}).get(
-            "threads", config["default_resources"]["threads"]
-        ),
+        threads=config.get("padd_target_regions", {}).get("threads", config["default_resources"]["threads"]),
         time=config.get("padd_target_regions", {}).get(
             "time", config["default_resources"]["time"]
         ),
