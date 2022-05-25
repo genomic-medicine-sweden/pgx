@@ -36,7 +36,7 @@ validate(samples, schema="../schemas/samples.schema.yaml")
 
 units = (
     pandas.read_table(config["units"], dtype=str)
-    .set_index(["sample", "type", "flowcell", "lane"], drop=False)
+    .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
     .sort_index()
 )
 validate(units, schema="../schemas/units.schema.yaml")
