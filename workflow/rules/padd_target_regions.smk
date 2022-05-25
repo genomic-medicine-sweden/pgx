@@ -29,9 +29,7 @@ rule padd_target_regions:
         mem_per_cpu=config.get("padd_target_regions", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
         partition=config.get("padd_target_regions", {}).get("partition", config["default_resources"]["partition"]),
     container:
-        config.get("padd_target_regions", {}).get(
-            "container", config["default_container"]
-        )
+        config.get("padd_target_regions", {}).get("container", config["default_container"])
     conda:
         "../envs/padd_target_regions.yaml"
     message:
