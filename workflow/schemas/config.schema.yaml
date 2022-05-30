@@ -24,7 +24,7 @@ padd_target_regions:
     properties:
       benchmark_repeats:
         type: integer
-        description: set number of times benchmark should be repeated for padd_target_regions
+        description: set number of times benchmark should be repeated
       container:
         type: string
         description: name or path to docker/singularity padd_target_regions
