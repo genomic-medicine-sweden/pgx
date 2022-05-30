@@ -1,4 +1,4 @@
-resources: "resources.yaml"
+resources: "config/resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
