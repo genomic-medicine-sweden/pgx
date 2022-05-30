@@ -1,5 +1,0 @@
-resources: "resources.yaml"
-samples: "samples.tsv"
-units: "units.tsv"
-
-default_container: "docker://marrip/common:1.1.0"

@@ -1,0 +1,9 @@
+resources: "config/resources.yaml"
+samples: "samples.tsv"
+units: "units.tsv"
+
+default_container: "docker://hydragenetics/common:0.1.3"
+
+padd_target_regions:
+  target_regions: "reference/exons_variants_pharmacogenomics.UGT1A1.bed"
+  padding: 100

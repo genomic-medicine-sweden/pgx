@@ -13,13 +13,16 @@ from snakemake.utils import min_version
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
+from hydra_genetics import min_version as hydra_min_version
+
+hydra_min_version("0.11.0")
 
 min_version("6.8.0")
 
 ### Set and validate config file
 
 
-configfile: "config.yaml"
+configfile: "config/config.yaml"
 
 
 validate(config, schema="../schemas/config.schema.yaml")
@@ -34,7 +37,11 @@ validate(samples, schema="../schemas/samples.schema.yaml")
 
 ### Read and validate units file
 
-units = pandas.read_table(config["units"], dtype=str).set_index(["sample", "type", "flowcell", "lane"], drop=False).sort_index()
+units = (
+    pandas.read_table(config["units"], dtype=str)
+    .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
+    .sort_index()
+)
 validate(units, schema="../schemas/units.schema.yaml")
 
 ### Set wildcard constraints
@@ -46,8 +53,9 @@ wildcard_constraints:
 
 
 def compile_output_list(wildcards):
-    return [
-        "pgx/dummy/%s_%s.dummy.txt" % (sample, t)
+    output_files = [
+        "pgx/padd_target_regions/%s_%s_padded_bait_interval.bed" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]
+    return output_files

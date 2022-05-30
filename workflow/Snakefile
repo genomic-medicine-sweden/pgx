@@ -6,34 +6,13 @@ __copyright__ = "Copyright 2022, Massimiliano Volpe & Lauri Mesilaakso"
 __email__ = "massimiliano.volpe@liu.se & lauri.mesilaakso@regionostergotland.se"
 __license__ = "GPL-3"
 
+
 include: "rules/common.smk"
+include: "rules/padd_target_regions.smk"
+
 
 report: "report/workflow.rst"
 
-rule dummy:
-    output:
-        "pgx/dummy/{sample}_{type}.dummy.txt"
-    params:
-        extra=config.get("dummy", {}).get("extra", ""),
-    log:
-        "pgx/dummy/{sample}_{type}.output.log"
-    benchmark:
-       repeat("module/dummy/{sample}_{type}.output.benchmark.tsv", config.get("dummy", {}).get("benchmark_repeats", 1),)
-    threads: # optional
-       threads=config.get("dummy", {}).get("threads", config["default_resources"]["threads"]),
-    resources:
-        threads=config.get("dummy", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("dummy", {}).get("time", config["default_resources"]["time"]),
-    container:
-       config.get("dummy", {}).get("container", config["default_container"])
-    conda:
-       "../envs/dummy.yaml"
-    message:
-       "{rule}: Do stuff on module/{rule}/{wildcards.sample}_{wildcards.type}.input"
-    shell:
-        """
-        touch {output}
-        """
 
 rule all:
     input:
