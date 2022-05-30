@@ -83,5 +83,5 @@ if __name__ == '__main__':
     bed_df = read_df(Path(target_bed))
     padded_coordinates = add_padding(bed_df, int(padding))
 
-    padded_coordinates.to_csv(Path(output_file_name), index=False)
+    padded_coordinates.to_csv(Path(output_file_name), index=False, sep='\t', header=False)
     logging.info(f"Padded bed file written: {output_file_name}")
