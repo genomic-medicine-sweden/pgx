@@ -11,7 +11,7 @@ rule padd_target_regions:
     input:
         target_regions=config.get("padd_target_regions", {}).get("target_regions", ""),
     output:
-        padded_target_regions="pgx/padd_target_regions/{sample}_{type}_padded_bait_interval.bed",
+        padded_target_regions=temp("pgx/padd_target_regions/{sample}_{type}_padded_bait_interval.bed"),
     params:
         padding=config.get("padd_target_regions", {}).get("padding", "100"),
     log:
