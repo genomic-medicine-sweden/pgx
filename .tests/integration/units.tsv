@@ -1,2 +1,2 @@
-sample	type	run	lane	fastq1	fastq2	adapter
-NA12878	N	1	1	input/R1.fq.gz	input/R2.fq.gz	ACGT
+sample	type	platform	barcode	machine	flowcell	lane	fastq1	fastq2	adapter
+HD832	T	Illumina	AGGGCGATAA+TTGTGTTCCT	@VH00694	AAAM3CNM5	L001	temp/HD832.bam	temp/HD832.bam	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA,AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
