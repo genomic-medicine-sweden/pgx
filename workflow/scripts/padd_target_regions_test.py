@@ -96,6 +96,14 @@ class TestAddPadding(unittest.TestCase):
                                     columns=["CHROM", "START", "END", "ID"])
         unpadded_bed = unpadded_bed.astype({"START": int, "END": int})
 
+        unpadded_bed_chr_missing = pd.DataFrame(
+            [["1", "200", "300", "ID1"]],
+            columns=["CHROM", "START", "END", "ID"])
+        unpadded_bed_chr_missing = unpadded_bed.astype({
+            "START": int,
+            "END": int
+        })
+
         padded_bed = pd.DataFrame([["chr1", "100", "400", "ID1"]],
                                   columns=["CHROM", "START", "END", "ID"])
         padded_bed = padded_bed.astype({"START": int, "END": int})
@@ -104,6 +112,12 @@ class TestAddPadding(unittest.TestCase):
             TestCase(
                 name="Pad coordinates successfully",
                 input=unpadded_bed,
+                padding=100,
+                expected=padded_bed,
+            ),
+            TestCase(
+                name="Pad coordinates successfully",
+                input=unpadded_bed_chr_missing,
                 padding=100,
                 expected=padded_bed,
             ),
