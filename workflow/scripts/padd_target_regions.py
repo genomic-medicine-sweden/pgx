@@ -68,7 +68,9 @@ def add_padding(target_bed_df: pd.DataFrame, padding: int) -> pd.DataFrame:
         chrom, start, end, region_id = switch_coordinates_if_reversed(row[0:4])
         start -= padding
         end += padding
-        rows.append([[f"chr{chrom}", start, end, region_id])
+        if (not str(chrom).startswith('chr')):
+            chrom = f"chr{chrom}"
+        rows.append([chrom, start, end, region_id])
     return pd.DataFrame(rows, columns=["CHROM", "START", "END", "ID"])
 
 
@@ -83,5 +85,8 @@ if __name__ == '__main__':
     bed_df = read_df(Path(target_bed))
     padded_coordinates = add_padding(bed_df, int(padding))
 
-    padded_coordinates.to_csv(Path(output_file_name), index=False, sep='\t', header=False)
+    padded_coordinates.to_csv(Path(output_file_name),
+                              index=False,
+                              sep='\t',
+                              header=False)
     logging.info(f"Padded bed file written: {output_file_name}")
