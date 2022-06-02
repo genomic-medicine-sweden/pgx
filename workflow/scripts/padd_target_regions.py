@@ -68,7 +68,7 @@ def add_padding(target_bed_df: pd.DataFrame, padding: int) -> pd.DataFrame:
         chrom, start, end, region_id = switch_coordinates_if_reversed(row[0:4])
         start -= padding
         end += padding
-        rows.append([chrom, start, end, region_id])
+        rows.append([[f"chr{chrom}", start, end, region_id])
     return pd.DataFrame(rows, columns=["CHROM", "START", "END", "ID"])
 
 
