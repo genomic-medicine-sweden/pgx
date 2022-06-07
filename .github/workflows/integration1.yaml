@@ -36,7 +36,7 @@ jobs:
       - name: Integration test - small dataset
         working-directory: .tests/integration
         run: |
-          snakemake -s ../../workflow/Snakefile -j 1 --configfile config.yaml --use-conda
+          snakemake -s ../../workflow/Snakefile -j 1 --configfile config/config.yaml --use-conda
   integration-small-singularity:
     name: integration small data set singularity
     runs-on: ubuntu-latest
@@ -64,4 +64,4 @@ jobs:
       - name: Integration test - small dataset
         working-directory: .tests/integration
         run: |
-          snakemake -s ../../workflow/Snakefile -j 1 --configfile config.yaml --show-failed-logs --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
+          snakemake -s ../../workflow/Snakefile -j 1 --configfile config/config.yaml --show-failed-logs --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
