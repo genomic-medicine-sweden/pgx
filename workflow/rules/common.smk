@@ -35,6 +35,8 @@ validate(config, schema="../schemas/resources.schema.yaml")
 samples = pd.read_table(config["samples"], dtype=str).set_index("sample", drop=False)
 validate(samples, schema="../schemas/samples.schema.yaml")
 
+design = pd.read_table(config.get("padd_target_regions", {}).get("target_regions", ""), dtype=str, index_col=0)
+
 ### Read and validate units file
 
 units = (
@@ -44,18 +46,49 @@ units = (
 )
 validate(units, schema="../schemas/units.schema.yaml")
 
+### Reading choromosomes from design bed file
+
+
+def get_choromosomes(genomic_regions: pd.DataFrame) -> typing.List[str]:
+    """
+    function used to extract all unique chromosomes found in design bed file
+    Args:
+        genomic_regions (pd.DataFrame):
+
+    Returns:
+        typing.List[str]: List of strings with all unique chromosomes found in regions
+    """
+    return list(set([f"chr{str(region.Index)}" for region in genomic_regions.itertuples()]))
+
+
 ### Set wildcard constraints
 
 
 wildcard_constraints:
     sample="|".join(samples.index),
+    chr="[^_]+",
     type="N|T|R",
 
 
 def compile_output_list(wildcards):
-    output_files = [
-        "pgx/padd_target_regions/%s_%s_padded_bait_interval.bed" % (sample, t)
+    output_files = ["pgx/padd_target_regions/padded_bait_interval.bed"]
+    output_files += [
+        "alignment/samtools_extract_reads/%s_%s_%s.bam" % (sample, t, c)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
+    ]
+    output_files += ["snv_indels/bed_split/design_bedfile_%s.bed" % (c) for c in get_choromosomes(design)]
+    output_files += [
+        "alignment/picard_mark_duplicates/%s_%s_%s.bam" % (sample, t, c)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
+    ]
+    output_files += [
+        "snv_indels/haplotypecaller/%s_%s_%s.vcf" % (sample, t, c)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
     ]
     return output_files
