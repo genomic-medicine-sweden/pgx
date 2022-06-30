@@ -17,3 +17,32 @@ report: "report/workflow.rst"
 rule all:
     input:
         unpack(compile_output_list),
+
+
+module snv_indels:
+    snakefile:
+        github("hydra-genetics/snv_indels", path="workflow/Snakefile", tag="v0.1.1")
+    config:
+        config
+
+
+use rule bed_split from snv_indels as snv_indels_bed_split
+
+
+use rule haplotypecaller from snv_indels as snv_indels_haplotypecaller
+
+
+module alignment:
+    snakefile:
+        github("hydra-genetics/alignment", path="workflow/Snakefile", tag="v0.2.0")
+    config:
+        config
+
+
+use rule samtools_extract_reads from alignment as alignment_samtools_extract_reads
+
+
+use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates
+
+
+use rule samtools_index from alignment as alignment_samtools_index

@@ -11,14 +11,14 @@ rule padd_target_regions:
     input:
         target_regions=config.get("padd_target_regions", {}).get("target_regions", ""),
     output:
-        padded_target_regions=temp("pgx/padd_target_regions/{sample}_{type}_padded_bait_interval.bed"),
+        padded_target_regions=temp("pgx/padd_target_regions/padded_bait_interval.bed"),
     params:
         padding=config.get("padd_target_regions", {}).get("padding", "100"),
     log:
-        "pgx/padd_target_regions/{sample}_{type}.output.log",
+        "pgx/padd_target_regions/padded_bait_interval.output.log",
     benchmark:
         repeat(
-            "pgx/padd_target_regions/{sample}_{type}.output.benchmark.tsv",
+            "pgx/padd_target_regions/padded_bait_interval.output.benchmark.tsv",
             config.get("padd_target_regions", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("padd_target_regions", {}).get("threads", config["default_resources"]["threads"])
@@ -33,6 +33,6 @@ rule padd_target_regions:
     conda:
         "../envs/padd_target_regions.yaml"
     message:
-        "{rule}: padd bed file on pgx/{rule}/{wildcards.sample}_{wildcards.type}_padded_bait_interval.bed"
+        "{rule}: padd bed file on pgx/{rule}/padded_bait_interval.bed"
     script:
         "../scripts/padd_target_regions.py"
