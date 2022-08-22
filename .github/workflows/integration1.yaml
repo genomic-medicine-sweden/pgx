@@ -26,6 +26,7 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
+          conda config --set channel_priority strict
           conda install -c conda-forge mamba=0.15.3
       - name: Install requirements.txt
         run: |
@@ -51,6 +52,7 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
+          conda config --set channel_priority strict
           conda install -c conda-forge mamba=0.15.3
       - name: Install requirements.txt
         run: |
