@@ -4,3 +4,5 @@ __pycache__
 describe_workflow.rst
 describe_jupyter_notebook.txt
 pgx
+*.bai
+*.tsv

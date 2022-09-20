@@ -4,3 +4,6 @@ default_resources:
   mem_mb: 1024
   mem_per_cpu: 3072
   partition: core
+
+haplotypecaller:
+  threads: 8

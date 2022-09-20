@@ -4,11 +4,22 @@ units: "units.tsv"
 
 default_container: "docker://hydragenetics/common:0.1.3"
 
+haplotypecaller:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  extra: "--dbsnp reference/dbsnp_138.sub.vcf.gz --standard-min-confidence-threshold-for-calling 1.0"
+
 padd_target_regions:
-  target_regions: "reference/exons_variants_pharmacogenomics.UGT1A1.bed"
+  target_regions: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   padding: 100
+  container: "docker://hydragenetics/common:0.1.3"
+
+picard_mark_duplicates:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+snv_indels_haplotypecaller:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 reference:
-  design_bed: "reference/exons_variants_pharmacogenomics.UGT1A1.bed"
-  fasta: "reference/chr2_UGT1A1.fa"
-  fai: "reference/chr2_UGT1A1.fa.fai"
+  design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
+  fasta: "reference/hg19.chr6.fasta"
+  fai: "reference/hg19.chr6.fasta.fai"
