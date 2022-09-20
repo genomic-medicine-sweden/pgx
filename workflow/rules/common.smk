@@ -58,7 +58,7 @@ def get_choromosomes(genomic_regions: pd.DataFrame) -> typing.List[str]:
     Returns:
         typing.List[str]: List of strings with all unique chromosomes found in regions
     """
-    return list(set([f"chr{str(region.Index)}" for region in genomic_regions.itertuples()]))
+    return list(set([f"{str(region.Index)}" for region in genomic_regions.itertuples()]))
 
 
 ### Set wildcard constraints
