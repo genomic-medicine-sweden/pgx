@@ -16,7 +16,6 @@ reference:
   fai: "/mnt/WD1/ref/Uppsala/Data/BWA_0.7.10_refseq/hg19.with.mt.fai"
 
 haplotypecaller:
-  threads: 22
   container: "docker://hydragenetics/gatk4:4.1.9.0"
   extra: "--dbsnp /mnt/WD1/ref/dbsnp/dbsnp_138.hg19.vcf --standard-min-confidence-threshold-for-calling 1.0"
 
