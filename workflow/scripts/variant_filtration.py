@@ -32,7 +32,7 @@ def filter_variants(vcf, read_ratio, depth, output):
 
 def main():
     filter_variants(snakemake.input["vcf"], snakemake.params.read_ratio,
-                    snakemake.params.read.depth,
+                    snakemake.params.read_depth,
                     snakemake.output["filtered_vcf"])
 
 
