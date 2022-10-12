@@ -19,7 +19,16 @@ picard_mark_duplicates:
 snv_indels_haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
+filtering_variant_filtration:
+  read_ratio: 0.2
+  read_depth: 100
+  container: "docker://quay.io/biocontainers/pysam:0.19.1--py310hd89ff4b_0"
+
+variant_annotator:
+  container: "docker://hydragenetics/gatk4:4.2.2.0"
+
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"
   fai: "reference/hg19.chr6.fasta.fai"
+  dbsnp: "reference/dbsnp_138.sub.vcf.gz"

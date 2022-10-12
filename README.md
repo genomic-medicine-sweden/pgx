@@ -41,6 +41,8 @@ The workflow repository contains a small test dataset `.tests/integration` which
 ```bash
 cd .tests/integration
 snakemake -s ../../Snakefile -j1 --use-singularity
+#alternative command:
+#snakemake -s ../../workflow/Snakefile -j1 --use-singularity --configfile config/config.yaml
 ```
 
 ## :rocket: Usage
