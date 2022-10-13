@@ -91,4 +91,16 @@ def compile_output_list(wildcards):
         for t in get_unit_types(units, sample)
         for c in get_choromosomes(design)
     ]
+    output_files += [
+        "filtering/variant_filtration/%s_%s_%s.filtered.vcf" % (sample, t, c)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
+    ]
+    output_files += [
+        "pgx/variant_annotator/%s_%s_%s.output.vcf" % (sample, t, c)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
+    ]
     return output_files

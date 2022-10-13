@@ -3,6 +3,10 @@ __pycache__
 .snakemake
 describe_workflow.rst
 describe_jupyter_notebook.txt
-pgx
+pgx/
+data/
+alignment/
+filtering/
+snv_indels/
 *.bai
 *.tsv

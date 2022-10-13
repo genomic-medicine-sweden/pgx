@@ -7,17 +7,27 @@ units: "config/units.tsv"
 default_container: "docker://hydragenetics/common:0.1.3"
 
 padd_target_regions:
-  target_regions: "temp/data/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
+  target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
   padding: 100
 
 reference:
   design_bed: "pgx/padd_target_regions/padded_bait_interval.bed"
-  fasta: "/data/ref/UCSC_hg19/genome.fa"
-  fai: "/data/ref/UCSC_hg19/genome.fa.fai"
+  fasta: "/mnt/WD1/ref/Uppsala/Data/BWA_0.7.10_refseq/hg19.with.mt.fasta"
+  fai: "/mnt/WD1/ref/Uppsala/Data/BWA_0.7.10_refseq/hg19.with.mt.fai"
+#  dbsnp: "/mnt/WD1/ref/dbsnp/dbSNP_153/hg19/00-All.vcf.gz"
+  dbsnp: "/mnt/WD1/ref/dbsnp/dbsnp_138.hg19.vcf"
 
 haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
-  extra: "--dbsnp /data/ref/dbsnp_138.hg19.vcf --standard-min-confidence-threshold-for-calling 1.0"
+  extra: "--dbsnp /mnt/WD1/ref/dbsnp/dbsnp_138.hg19.vcf --standard-min-confidence-threshold-for-calling 1.0"
 
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.0"
+
+filtering_variant_filtration:
+  read_ratio: 0.2
+  read_depth: 100
+  container: "docker://quay.io/biocontainers/pysam:0.19.1--py310hd89ff4b_0"
+
+variant_annotator:
+  container: "docker://hydragenetics/gatk4:4.2.2.0"

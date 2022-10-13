@@ -8,6 +8,8 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
+include: "rules/variant_annotator.smk"
+include: "rules/filtering.smk"
 include: "rules/padd_target_regions.smk"
 
 
@@ -21,7 +23,7 @@ rule all:
 
 module snv_indels:
     snakefile:
-        github("hydra-genetics/snv_indels", path="workflow/Snakefile", tag="v0.1.1")
+        github("hydra-genetics/snv_indels", path="workflow/Snakefile", tag="v0.2.0")
     config:
         config
 
