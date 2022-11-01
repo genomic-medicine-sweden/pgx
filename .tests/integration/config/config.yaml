@@ -24,8 +24,11 @@ filtering_variant_filtration:
   read_depth: 100
   container: "docker://quay.io/biocontainers/pysam:0.19.1--py310hd89ff4b_0"
 
-variant_annotator:
+annotation_variant_annotator:
   container: "docker://hydragenetics/gatk4:4.2.2.0"
+
+summary_detected_variants:
+  target_rsid: "reference/target_rsid.TPMT.bed"
 
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"

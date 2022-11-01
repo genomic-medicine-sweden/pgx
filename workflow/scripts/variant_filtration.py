@@ -1,5 +1,4 @@
 from pysam import VariantFile
-import sys
 
 
 def filter_variants(vcf, read_ratio, depth, output):

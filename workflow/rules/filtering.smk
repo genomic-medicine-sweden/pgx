@@ -8,7 +8,7 @@ rule filtering_variant_filtration:
     input:
         vcf="snv_indels/haplotypecaller/{sample}_{type}_{chr}.vcf",
     output:
-        filtered_vcf="filtering/variant_filtration/{sample}_{type}_{chr}.filtered.vcf",
+        filtered_vcf="pgx/filtering_variant_filtration/{sample}_{type}_{chr}.filtered.vcf",
     params:
         read_ratio=config.get("filtering_variant_filtration", {}).get("read_ratio", ""),
         read_depth=config.get("filtering_variant_filtration", {}).get("read_depth", ""),
