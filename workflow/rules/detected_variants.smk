@@ -30,6 +30,6 @@ rule summary_detected_variants:
     conda:
         "../envs/detected_variants.yaml"
     message:
-        "{rule}: Getting variants with target rsIDs on pgx/{rule}/{wildcards.sample}_{wildcards.type}_{wildcards.chr}.input"
+        "{rule}: getting variants with target rsIDs on {input}"
     script:
         "../scripts/get_target_variants.py"
