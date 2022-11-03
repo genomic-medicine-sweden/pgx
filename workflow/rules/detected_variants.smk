@@ -11,7 +11,6 @@ rule summary_detected_variants:
         csv="pgx/summary_detected_variants/{sample}_{type}_{chr}.output.csv",
     params:
         target_bed=config.get("summary_detected_variants", {}).get("target_rsid", ""),
-    #       hidden_haplotypes = config.get("detected_variants", {}).get("hidden_haplotypes", "")
     log:
         "pgx/summary_detected_variants/{sample}_{type}_{chr}.output.log",
     benchmark:
