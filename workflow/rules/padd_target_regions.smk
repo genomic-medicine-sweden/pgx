@@ -33,6 +33,6 @@ rule padd_target_regions:
     conda:
         "../envs/padd_target_regions.yaml"
     message:
-        "{rule}: padd bed file on pgx/{rule}/padded_bait_interval.bed"
+        "{rule}: padd bed file on {input}"
     script:
         "../scripts/padd_target_regions.py"
