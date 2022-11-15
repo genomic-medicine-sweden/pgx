@@ -2,7 +2,7 @@ resources: "config/resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
 
-default_container: "docker://hydragenetics/common:0.1.3"
+default_container: "docker://hydragenetics/common:0.1.9"
 
 haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
@@ -22,7 +22,7 @@ snv_indels_haplotypecaller:
 filtering_variant_filtration:
   read_ratio: 0.2
   read_depth: 100
-  container: "docker://quay.io/biocontainers/pysam:0.19.1--py310hd89ff4b_0"
+  container: "docker://hydragenetics/common:0.1.9"
 
 annotation_variant_annotator:
   container: "docker://hydragenetics/gatk4:4.2.2.0"
