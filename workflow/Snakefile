@@ -8,6 +8,7 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
+include: "rules/sample_target_list.smk"
 include: "rules/detected_variants.smk"
 include: "rules/variant_annotator.smk"
 include: "rules/variant_filtration.smk"

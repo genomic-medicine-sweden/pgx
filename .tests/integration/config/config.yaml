@@ -28,6 +28,10 @@ variant_annotator:
 detected_variants:
   target_rsid: "reference/target_rsid.TPMT.bed"
 
+sample_target_list:
+  target_rsid: "reference/target_rsid.TPMT.bed"
+  padding: 0
+
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"
