@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule variant_annotator:
     input:
-        vcf="filtering/variant_filtration/{sample}_{type}_{chr}.filtered.vcf",
+        vcf="pgx/variant_filtration/{sample}_{type}_{chr}.filtered.vcf",
         aln="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
         ref=config.get("reference", {}).get("fasta", ""),
         db=config.get("reference", {}).get("dbsnp", ""),
@@ -34,6 +34,6 @@ rule variant_annotator:
     conda:
         "../envs/variant_annotator.yaml"
     message:
-        "{rule}: Annotating vcf on pgx/{rule}/{wildcards.sample}_{wildcards.type}_{wildcards.chr}.input"
+        "{rule}: annotate vcf on {input}"
     wrapper:
         "v1.14.1/bio/gatk/variantannotator"
