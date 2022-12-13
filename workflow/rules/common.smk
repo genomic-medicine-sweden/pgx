@@ -109,4 +109,10 @@ def compile_output_list(wildcards):
         for t in get_unit_types(units, sample)
         for c in get_choromosomes(design)
     ]
+    output_files += [
+        "pgx/sample_target_list/%s_%s_%s.output.tsv" % (sample, t, c)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
+    ]
     return output_files
