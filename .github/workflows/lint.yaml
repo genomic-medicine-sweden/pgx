@@ -20,12 +20,18 @@ jobs:
     name: Lint workflow
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-      - name: Linting
-        uses: snakemake/snakemake-github-action@v1.22.0
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v3
         with:
-          directory: ".tests/integration"
-          snakefile: "workflow/Snakefile"
-          args: "--lint --configfile .tests/integration/config/config.yaml"
-          stagein: "pip install -r requirements.txt"
+          python-version: 3.8
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
+      - name: Install requirements.txt
+        run: |
+          pip install -r requirements.txt
+      - name: Linting
+        working-directory: .tests/integration
+        run: |
+          snakemake --lint -n -s ../../workflow/Snakefile --configfile config/config.yaml
