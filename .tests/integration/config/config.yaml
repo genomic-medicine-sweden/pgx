@@ -32,6 +32,11 @@ sample_target_list:
   target_rsid: "reference/target_rsid.TPMT.bed"
   padding: 0
 
+get_padded_baits:
+  target_regions: "reference/exons_variants_pharmacogenomics.TPMT.bed"
+  padding: 100
+  file_format: "list"
+
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"

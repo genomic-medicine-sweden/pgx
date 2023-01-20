@@ -115,4 +115,5 @@ def compile_output_list(wildcards):
         for t in get_unit_types(units, sample)
         for c in get_choromosomes(design)
     ]
+    output_files += ["pgx/get_padded_baits/padded_bait_interval.list"]
     return output_files

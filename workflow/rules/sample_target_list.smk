@@ -6,11 +6,11 @@ __license__ = "GPL-3"
 
 rule sample_target_list:
     input:
+        target_bed=config.get("sample_target_list", {}).get("target_rsid", ""),
         detected_variants="pgx/detected_variants/{sample}_{type}_{chr}.output.csv",
     output:
         interval="pgx/sample_target_list/{sample}_{type}_{chr}.output.tsv",
     params:
-        target_bed=config.get("sample_target_list", {}).get("target_rsid", ""),
         padding=config.get("sample_target_list", {}).get("padding", "0"),
         file_format=config.get("sample_target_list", {}).get("file_format", "list"),
     log:

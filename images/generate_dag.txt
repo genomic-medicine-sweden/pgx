@@ -2,5 +2,5 @@
 # snakemake --dag sorted_reads/{A,B}.bam.bai | dot -Tsvg > dag.svg
 # snakemake –rulegraph | dot -Tsvg > dag.svg
 
-# snakemake -s workflow/Snakefile --configfile config/config.yaml --rulegraph | dot -Tsvg > dag.svg
-# snakemake --cores 1 -s workflow/Snakefile --configfile config/config.yaml --rulegraph | dot -Tsvg > dag.svg
+# snakemake -s workflow/Snakefile --configfile config/config.yaml --rulegraph | dot -Tsvg > ./images/dag.svg
+# snakemake --cores 1 -s workflow/Snakefile --configfile config/config.yaml --rulegraph | dot -Tsvg > ./images/dag.svg
