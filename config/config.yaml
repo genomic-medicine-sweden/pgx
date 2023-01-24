@@ -15,6 +15,7 @@ reference:
   fasta: "/mnt/WD1/ref/Uppsala/Data/BWA_0.7.10_refseq/hg19.with.mt.fasta"
   fai: "/mnt/WD1/ref/Uppsala/Data/BWA_0.7.10_refseq/hg19.with.mt.fai"
   dbsnp: "/mnt/WD1/ref/dbsnp/dbsnp_138.hg19.vcf"
+  target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
 
 haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
@@ -41,3 +42,6 @@ get_padded_baits:
   target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
   padding: 100
   file_format: "list"
+
+depth_of_baits:
+  container: "docker://hydragenetics/gatk4:4.2.2.0"

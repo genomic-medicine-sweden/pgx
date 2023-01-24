@@ -41,8 +41,12 @@ The workflow repository contains a small test dataset `.tests/integration` which
 ```bash
 cd .tests/integration
 snakemake -s ../../Snakefile -j1 --use-singularity
-#alternative command:
-#snakemake -s ../../workflow/Snakefile -j1 --use-singularity --configfile config/config.yaml
+
+# alternative command:
+snakemake -s ../../workflow/Snakefile -j1 --use-singularity --configfile config/config.yaml
+
+# generate DAG:
+snakemake --cores 1 -s workflow/Snakefile --configfile config/config.yaml --rulegraph | dot -Tsvg > ./images/dag.svg
 ```
 
 ## :rocket: Usage
@@ -56,4 +60,4 @@ snakemake -s /path/to/Snakefile --profile my-awesome-profile
 
 ## :judge: Rule Graph
 
-![rule_graph](https://raw.githubusercontent.com/path.../rulegraph.svg)
+![rule_graph](https://github.com/genomic-medicine-sweden/pgx/blob/develop/images/dag.svg)

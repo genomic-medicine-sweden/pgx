@@ -8,5 +8,6 @@ pgx/
 data/
 alignment/
 snv_indels/
+tmp/
 *.bai
 *.tsv
