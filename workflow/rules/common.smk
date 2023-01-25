@@ -116,4 +116,10 @@ def compile_output_list(wildcards):
         for c in get_choromosomes(design)
     ]
     output_files += ["pgx/get_padded_baits/padded_bait_interval.list"]
+    output_files += [
+        "pgx/depth_of_baits/%s_%s_%s.output.gdf" % (sample, t, c)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
+    ]
     return output_files

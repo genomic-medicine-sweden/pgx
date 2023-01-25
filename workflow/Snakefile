@@ -8,6 +8,7 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
+include: "rules/depth_of_baits.smk"
 include: "rules/get_padded_baits.smk"
 include: "rules/sample_target_list.smk"
 include: "rules/detected_variants.smk"

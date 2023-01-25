@@ -23,7 +23,7 @@ variant_filtration:
   read_depth: 100
 
 variant_annotator:
-  container: "docker://hydragenetics/gatk4:4.2.2.0"
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 detected_variants:
   target_rsid: "reference/target_rsid.TPMT.bed"
@@ -37,8 +37,12 @@ get_padded_baits:
   padding: 100
   file_format: "list"
 
+depth_of_baits:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"
   fai: "reference/hg19.chr6.fasta.fai"
   dbsnp: "reference/dbsnp_138.sub.vcf.gz"
+  target_regions: "reference/exons_variants_pharmacogenomics.TPMT.bed"
