@@ -45,3 +45,6 @@ get_padded_baits:
 
 depth_of_baits:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+depth_of_targets:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"

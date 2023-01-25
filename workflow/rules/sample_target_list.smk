@@ -9,7 +9,7 @@ rule sample_target_list:
         target_bed=config.get("sample_target_list", {}).get("target_rsid", ""),
         detected_variants="pgx/detected_variants/{sample}_{type}_{chr}.output.csv",
     output:
-        interval="pgx/sample_target_list/{sample}_{type}_{chr}.output.tsv",
+        interval="pgx/sample_target_list/{sample}_{type}_{chr}.target_interval.list",
     params:
         padding=config.get("sample_target_list", {}).get("padding", "0"),
         file_format=config.get("sample_target_list", {}).get("file_format", "list"),

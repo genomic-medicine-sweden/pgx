@@ -72,6 +72,7 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     output_files = ["pgx/padd_target_regions/padded_bait_interval.bed"]
+    output_files += ["pgx/get_padded_baits/padded_bait_interval.list"]
     output_files += [
         "alignment/samtools_extract_reads/%s_%s_%s.bam" % (sample, t, c)
         for sample in get_samples(samples)
@@ -110,14 +111,19 @@ def compile_output_list(wildcards):
         for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/sample_target_list/%s_%s_%s.output.tsv" % (sample, t, c)
+        "pgx/sample_target_list/%s_%s_%s.target_interval.list" % (sample, t, c)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
         for c in get_choromosomes(design)
     ]
-    output_files += ["pgx/get_padded_baits/padded_bait_interval.list"]
     output_files += [
-        "pgx/depth_of_baits/%s_%s_%s.output.gdf" % (sample, t, c)
+        "pgx/depth_of_coverage/depth_of_baits/%s_%s_%s.output.gdf" % (sample, t, c)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
+    ]
+    output_files += [
+        "pgx/depth_of_coverage/depth_of_targets/%s_%s_%s.depth_at_missing.gdf" % (sample, t, c)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
         for c in get_choromosomes(design)
