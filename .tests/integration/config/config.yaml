@@ -43,6 +43,9 @@ depth_of_baits:
 depth_of_targets:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
+append_id_to_gdf:
+  target_rsid: "reference/target_rsid.TPMT.bed"
+
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"

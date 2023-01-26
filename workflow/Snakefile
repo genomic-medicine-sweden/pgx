@@ -8,6 +8,7 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
+include: "rules/append_id_to_gdf.smk"
 include: "rules/depth_of_coverage.smk"
 include: "rules/get_padded_baits.smk"
 include: "rules/sample_target_list.smk"
