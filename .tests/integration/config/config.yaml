@@ -40,6 +40,9 @@ get_padded_baits:
 depth_of_baits:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
+depth_of_targets:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"
