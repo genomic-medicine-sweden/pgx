@@ -1,4 +1,4 @@
-from get_target_variants import GDF
+#from get_target_variants import GDF
 import argparse
 import sys
 

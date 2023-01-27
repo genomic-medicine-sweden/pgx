@@ -12,7 +12,7 @@ rule append_id_to_gdf:
     params:
         extra=config.get("append_id_to_gdf", {}).get("extra", ""),
         target_bed=config.get("append_id_to_gdf", {}).get("target_rsid", ""),
-        get_target_variants=workflow.source_path("../scripts/get_target_variants.py")
+        #module=workflow.source_path("../scripts/get_target_variants.py"),
     log:
         "pgx/append_id_to_gdf/{sample}_{type}_{chr}.output.log",
     benchmark:
