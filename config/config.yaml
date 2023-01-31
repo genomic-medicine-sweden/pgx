@@ -33,6 +33,7 @@ variant_annotator:
 
 detected_variants:
   target_rsid: "data/genomic_regions/target_rsid.bed"
+  file_type: "VCF"
 
 sample_target_list:
   target_rsid: "data/genomic_regions/target_rsid.bed"
@@ -53,3 +54,4 @@ depth_of_targets:
 
 append_id_to_gdf:
   target_rsid: "data/genomic_regions/target_rsid.bed"
+  file_type: "GDF"

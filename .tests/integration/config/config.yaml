@@ -27,6 +27,7 @@ variant_annotator:
 
 detected_variants:
   target_rsid: "reference/target_rsid.TPMT.bed"
+  file_type: "VCF"
 
 sample_target_list:
   target_rsid: "reference/target_rsid.TPMT.bed"
@@ -47,6 +48,7 @@ depth_of_targets:
 
 append_id_to_gdf:
   target_rsid: "reference/target_rsid.TPMT.bed"
+  file_type: "GDF"
 
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
