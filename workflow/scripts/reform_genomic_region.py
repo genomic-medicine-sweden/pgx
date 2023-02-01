@@ -2,9 +2,13 @@ import pandas as pd
 
 
 def reform(target_bed, output_f, detected_variants, padding, file_format):
-    targets = pd.read_csv(target_bed, sep="\t",
+    targets = pd.read_csv(target_bed,
+                          sep="\t",
                           names=["CHROM", "START", "END", "ID", "GENE"],
-                          dtype={"START": int, "END": int})
+                          dtype={
+                              "START": int,
+                              "END": int
+                          })
     if detected_variants is not None:
         detected_rsid = pd.read_csv(detected_variants, sep="\t").ID
         targets = targets[~targets.ID.isin(detected_rsid)]
@@ -34,7 +38,8 @@ def main():
     detected_variants = snakemake.input.get("detected_variants", None)
     padding = snakemake.params["padding"]
     file_format = snakemake.params["file_format"]
-    reform(target_bed, output_file, detected_variants, int(padding), file_format)
+    reform(target_bed, output_file, detected_variants, int(padding),
+           file_format)
 
 
 if __name__ == '__main__':

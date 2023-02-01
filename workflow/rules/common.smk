@@ -129,6 +129,12 @@ def compile_output_list(wildcards):
         for c in get_choromosomes(design)
     ]
     output_files += [
+        "pgx/get_clinical_guidelines/%s_%s_%s.output.csv" % (sample, t, c)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+        for c in get_choromosomes(design)
+    ]
+    output_files += [
         "pgx/append_id_to_gdf/%s_%s_%s.depth_at_missing_annotated.gdf" % (sample, t, c)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)

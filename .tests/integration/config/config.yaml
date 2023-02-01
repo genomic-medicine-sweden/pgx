@@ -50,6 +50,12 @@ append_id_to_gdf:
   target_rsid: "reference/target_rsid.TPMT.bed"
   file_type: "GDF"
 
+get_clinical_guidelines:
+  haplotype_definitions: "data/haplotypes/haplotype_definitions.csv"
+  haplotype_activity: "data/guidelines/haplotype_activity_score.csv"
+  clinical_guidelines: "data/guidelines/clinical_guidelines.csv"
+  hidden_haplotypes: "data/haplotypes/hidden_haplotypes.csv"
+
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"
