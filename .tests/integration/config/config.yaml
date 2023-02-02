@@ -51,10 +51,10 @@ append_id_to_gdf:
   file_type: "GDF"
 
 get_clinical_guidelines:
-  haplotype_definitions: "reference/haplotypes/haplotype_definitions.csv"
-  haplotype_activity: "reference/guidelines/haplotype_activity_score.csv"
-  clinical_guidelines: "reference/guidelines/clinical_guidelines.csv"
-  hidden_haplotypes: "reference/haplotypes/hidden_haplotypes.csv"
+  haplotype_definitions: "reference/haplotype_definitions.csv"
+  haplotype_activity: "reference/haplotype_activity_score.csv"
+  clinical_guidelines: "reference/clinical_guidelines.csv"
+  hidden_haplotypes: "reference/hidden_haplotypes.csv"
 
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
