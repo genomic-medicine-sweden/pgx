@@ -27,6 +27,7 @@ variant_annotator:
 
 detected_variants:
   target_rsid: "reference/target_rsid.TPMT.bed"
+  file_type: "VCF"
 
 sample_target_list:
   target_rsid: "reference/target_rsid.TPMT.bed"
@@ -39,9 +40,21 @@ get_padded_baits:
 
 depth_of_baits:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
+  extra: "--output-format TABLE"
 
 depth_of_targets:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
+  extra: "--output-format TABLE"
+
+append_id_to_gdf:
+  target_rsid: "reference/target_rsid.TPMT.bed"
+  file_type: "GDF"
+
+get_clinical_guidelines:
+  haplotype_definitions: "data/haplotypes/haplotype_definitions.csv"
+  haplotype_activity: "data/guidelines/haplotype_activity_score.csv"
+  clinical_guidelines: "data/guidelines/clinical_guidelines.csv"
+  hidden_haplotypes: "data/haplotypes/hidden_haplotypes.csv"
 
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"

@@ -32,7 +32,7 @@ rule depth_of_baits:
     conda:
         "../envs/depth_of_coverage.yaml"
     message:
-        "{rule}: Get read depth of baits on {input.bam}"
+        "{rule}: get read depth of baits on {input.bam}"
     wrapper:
         "v1.14.1/bio/gatk/depthofcoverage"
 
@@ -65,6 +65,6 @@ rule depth_of_targets:
     conda:
         "../envs/depth_of_coverage.yaml"
     message:
-        "{rule}: Get read depth of variant locations at wildtrype-called positions on {input.bam}"
+        "{rule}: get read depth of variant locations at wildtrype-called positions on {input.bam}"
     wrapper:
         "v1.14.1/bio/gatk/depthofcoverage"

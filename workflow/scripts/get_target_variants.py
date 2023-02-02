@@ -1,7 +1,10 @@
-import pandas as pd
+import argparse
 import gzip
-import re
 import os
+import re
+import sys
+
+import pandas as pd
 
 
 class GDF:
@@ -144,11 +147,21 @@ class VariantQCCollection:
 
 
 def main():
-    bed_f = snakemake.params["target_bed"]
-    vcf_f = snakemake.input["vcf"]
-    output_f = snakemake.output["csv"]
-    var_collect = VariantQCCollection(bed_f, vcf_f)
-    var_collect.write_detected_variant_qc(output_f)
+    file_type = snakemake.params["file_type"]
+
+    target_bed = snakemake.params["target_bed"]
+    input_f = snakemake.input["input_f"]
+    output_f = snakemake.output["output_f"]
+
+    if file_type == "VCF":
+        var_collect = VariantQCCollection(target_bed, input_f)
+        var_collect.write_detected_variant_qc(output_f)
+    elif file_type == "GDF":
+        c_gdf = GDF(input_f)
+        c_gdf.rsid_per_position(target_bed)
+        c_gdf.write_proccessed_gdf(output_f)
+    else:
+        raise Exception("File type must be either VCF or GDF")
 
 
 if __name__ == '__main__':
