@@ -15,7 +15,7 @@ include: "rules/sample_target_list.smk"
 include: "rules/get_target_variants.smk"
 include: "rules/variant_annotator.smk"
 include: "rules/variant_filtration.smk"
-#include: "rules/padd_target_regions.smk"
+# include: "rules/padd_target_regions.smk"
 include: "rules/get_padded_bed.smk"
 
 
@@ -34,7 +34,7 @@ module snv_indels:
         config
 
 
-#use rule bed_split from snv_indels as snv_indels_bed_split
+# use rule bed_split from snv_indels as snv_indels_bed_split
 use rule bed_split from snv_indels as snv_indels_bed_split with:
     input:
         #bed="pgx/padd_target_regions/padded_bait_interval.bed",

@@ -18,7 +18,7 @@ rule get_padded_bed:
     benchmark:
         repeat(
             "pgx/get_padded_bed/padded_bait_interval.bed.output.benchmark.tsv",
-            config.get("get_padded_bed", {}).get("benchmark_repeats", 1)
+            config.get("get_padded_bed", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("get_padded_bed", {}).get("threads", config["default_resources"]["threads"])
     resources:
