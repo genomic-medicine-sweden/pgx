@@ -12,6 +12,10 @@ padd_target_regions:
   target_regions: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   padding: 100
 
+get_padded_bed:
+  target_regions: "reference/exons_variants_pharmacogenomics.TPMT.bed"
+  padding: 100
+
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.0"
 
