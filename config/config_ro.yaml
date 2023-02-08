@@ -10,6 +10,10 @@ padd_target_regions:
   target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
   padding: 100
 
+get_padded_bed:
+  target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
+  padding: 100
+
 reference:
   design_bed: "pgx/padd_target_regions/padded_bait_interval.bed"
   fasta: "/data/reference_genomes/hg19/BWA_0.7.10_refseq/hg19.with.mt.fasta"
