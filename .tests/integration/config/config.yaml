@@ -61,7 +61,7 @@ get_clinical_guidelines:
   hidden_haplotypes: "reference/hidden_haplotypes.csv"
 
 get_interaction_guidelines:
-    interaction_guidelines: "reference/guidelines/interaction_guidelines.csv"
+    interaction_guidelines: "reference/interaction_guidelines.csv"
 
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
