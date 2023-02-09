@@ -60,6 +60,9 @@ get_clinical_guidelines:
   clinical_guidelines: "reference/clinical_guidelines.csv"
   hidden_haplotypes: "reference/hidden_haplotypes.csv"
 
+get_interaction_guidelines:
+    interaction_guidelines: "data/guidelines/interaction_guidelines.csv"
+
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"
