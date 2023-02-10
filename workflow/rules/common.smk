@@ -36,7 +36,7 @@ samples = pd.read_table(config["samples"], dtype=str).set_index("sample", drop=F
 validate(samples, schema="../schemas/samples.schema.yaml")
 
 # design = pd.read_table(config.get("padd_target_regions", {}).get("target_regions", ""), dtype=str, index_col=0)
-design = pd.read_table(config.get("get_padded_bed", {}).get("target_regions", ""), dtype=str, index_col=0)
+design = pd.read_table(config.get("reference", {}).get("design_bed", ""), dtype=str, index_col=0)
 
 ### Read and validate units file
 
@@ -73,8 +73,8 @@ wildcard_constraints:
 
 def compile_output_list(wildcards):
     # output_files = ["pgx/padd_target_regions/padded_bait_interval.bed"]
-    output_files = ["pgx/get_padded_bed/padded_bait_interval.bed"]
-    output_files += ["pgx/get_padded_baits/padded_bait_interval.list"]
+    output_files = ["pgx/reform_genomic_region/get_padded_bed/padded_bait_interval.bed"]
+    output_files += ["pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list"]
     output_files += [
         "alignment/samtools_extract_reads/%s_%s_%s.bam" % (sample, t, c)
         for sample in get_samples(samples)
@@ -101,19 +101,19 @@ def compile_output_list(wildcards):
         for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/variant_annotator/%s_%s_%s.output.vcf" % (sample, t, c)
+        "pgx/variant_annotator/%s_%s_%s.annotated.vcf" % (sample, t, c)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
         for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/detected_variants/%s_%s_%s.output.csv" % (sample, t, c)
+        "pgx/detected_variants/%s_%s_%s.annotated.csv" % (sample, t, c)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
         for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/sample_target_list/%s_%s_%s.target_interval.list" % (sample, t, c)
+        "pgx/reform_genomic_region/sample_target_list/%s_%s_%s.target_interval.list" % (sample, t, c)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
         for c in get_choromosomes(design)
