@@ -6,20 +6,15 @@ units: "config/units.tsv"
 
 default_container: "docker://hydragenetics/common:0.1.9"
 
-padd_target_regions:
-  target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
-  padding: 100
-
-get_padded_bed:
-  target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
-  padding: 100
-
 reference:
-  design_bed: "pgx/padd_target_regions/padded_bait_interval.bed"
+  design_bed: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
+  design_rsid: "data/genomic_regions/target_rsid.bed"
   fasta: "/mnt/WD1/ref/Uppsala/Data/BWA_0.7.10_refseq/hg19.with.mt.fasta"
   fai: "/mnt/WD1/ref/Uppsala/Data/BWA_0.7.10_refseq/hg19.with.mt.fai"
   dbsnp: "/mnt/WD1/ref/dbsnp/dbsnp_138.hg19.vcf"
-  target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
+
+get_padded_bed:
+  padding: 100
 
 haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
@@ -27,6 +22,9 @@ haplotypecaller:
 
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.0"
+
+snv_indels_haplotypecaller:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 variant_filtration:
   read_ratio: 0.2
@@ -36,15 +34,12 @@ variant_annotator:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 detected_variants:
-  target_rsid: "data/genomic_regions/target_rsid.bed"
   file_type: "VCF"
 
 sample_target_list:
-  target_rsid: "data/genomic_regions/target_rsid.bed"
   padding: 0
 
 get_padded_baits:
-  target_regions: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
   padding: 100
   file_format: "list"
 
@@ -56,6 +51,9 @@ depth_of_targets:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
   extra: "--output-format TABLE"
 
+append_id_to_gdf:
+  file_type: "GDF"
+
 get_clinical_guidelines:
   haplotype_definitions: "data/haplotypes/haplotype_definitions.csv"
   haplotype_activity: "data/guidelines/haplotype_activity_score.csv"
@@ -64,7 +62,3 @@ get_clinical_guidelines:
 
 get_interaction_guidelines:
   interaction_guidelines: "data/guidelines/interaction_guidelines.csv"   
-
-append_id_to_gdf:
-  target_rsid: "data/genomic_regions/target_rsid.bed"
-  file_type: "GDF"

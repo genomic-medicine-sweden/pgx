@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule get_clinical_guidelines:
     input:
-        found_variants="pgx/detected_variants/{sample}_{type}_{chr}.output.csv",
+        found_variants="pgx/detected_variants/{sample}_{type}_{chr}.annotated.csv",
     output:
         csv="pgx/get_clinical_guidelines/{sample}_{type}_{chr}.output.csv",
     params:

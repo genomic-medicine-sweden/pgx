@@ -11,15 +11,15 @@ rule variant_annotator:
         ref=config.get("reference", {}).get("fasta", ""),
         db=config.get("reference", {}).get("dbsnp", ""),
     output:
-        vcf="pgx/variant_annotator/{sample}_{type}_{chr}.output.vcf",
+        vcf="pgx/variant_annotator/{sample}_{type}_{chr}.annotated.vcf",
     params:
         extra="",  # optional "--resource-allele-concordance -A Coverage --expression db.END",
         java_opts="",  # optional
     log:
-        "pgx/variant_annotator/{sample}_{type}_{chr}.output.log",
+        "pgx/variant_annotator/{sample}_{type}_{chr}.annotated.vcf.log",
     benchmark:
         repeat(
-            "pgx/variant_annotator/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/variant_annotator/{sample}_{type}_{chr}.annotated.vcf.benchmark.tsv",
             config.get("variant_annotator", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("variant_annotator", {}).get("threads", config["default_resources"]["threads"])

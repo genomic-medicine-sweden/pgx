@@ -6,17 +6,18 @@ __license__ = "GPL-3"
 
 rule detected_variants:
     input:
-        input_f="pgx/variant_annotator/{sample}_{type}_{chr}.output.vcf",
+        input_f="pgx/variant_annotator/{sample}_{type}_{chr}.annotated.vcf",
     output:
-        output_f="pgx/detected_variants/{sample}_{type}_{chr}.output.csv",
+        output_f="pgx/detected_variants/{sample}_{type}_{chr}.annotated.csv",
     params:
-        target_bed=config.get("detected_variants", {}).get("target_rsid", ""),
+        extra=config.get("detected_variants", {}).get("extra", ""),
+        target_bed=config.get("reference", {}).get("design_rsid", ""),
         file_type=config.get("detected_variants", {}).get("file_type", ""),
     log:
-        "pgx/detected_variants/{sample}_{type}_{chr}.output.log",
+        "pgx/detected_variants/{sample}_{type}_{chr}.annotated.csv.log",
     benchmark:
         repeat(
-            "pgx/detected_variants/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/detected_variants/{sample}_{type}_{chr}.annotated.csv.benchmark.tsv",
             config.get("detected_variants", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("detected_variants", {}).get("threads", config["default_resources"]["threads"])
@@ -43,13 +44,13 @@ rule append_id_to_gdf:
         output_f="pgx/append_id_to_gdf/{sample}_{type}_{chr}.depth_at_missing_annotated.gdf",
     params:
         extra=config.get("append_id_to_gdf", {}).get("extra", ""),
-        target_bed=config.get("append_id_to_gdf", {}).get("target_rsid", ""),
+        target_bed=config.get("reference", {}).get("design_rsid", ""),
         file_type=config.get("append_id_to_gdf", {}).get("file_type", ""),
     log:
         "pgx/append_id_to_gdf/{sample}_{type}_{chr}.output.log",
     benchmark:
         repeat(
-            "pgx/append_id_to_gdf/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/append_id_to_gdf/{sample}_{type}_{chr}.depth_at_missing_annotated.gdf.benchmark.tsv",
             config.get("append_id_to_gdf", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("append_id_to_gdf", {}).get("threads", config["default_resources"]["threads"])

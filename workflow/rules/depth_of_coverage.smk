@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule depth_of_baits:
     input:
-        intervals="pgx/get_padded_baits/padded_bait_interval.list",
+        intervals="pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
         bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
     output:
@@ -39,7 +39,7 @@ rule depth_of_baits:
 
 rule depth_of_targets:
     input:
-        intervals="pgx/sample_target_list/{sample}_{type}_{chr}.target_interval.list",
+        intervals="pgx/reform_genomic_region/sample_target_list/{sample}_{type}_{chr}.target_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
         bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
     output:
