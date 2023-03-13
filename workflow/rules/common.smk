@@ -14,6 +14,7 @@ from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
 from hydra_genetics import min_version as hydra_min_version
+from hydra_genetics.utils.misc import extract_chr
 
 hydra_min_version("0.11.0")
 
@@ -93,28 +94,24 @@ def compile_output_list(wildcards):
         for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/variant_filtration/%s_%s_%s.filtered.vcf" % (sample, t, c)
+        "pgx/variant_filtration/%s_%s.filtered.vcf" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/variant_annotator/%s_%s_%s.annotated.vcf" % (sample, t, c)
+        "pgx/variant_annotator/%s_%s.annotated.vcf" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/detected_variants/%s_%s_%s.annotated.csv" % (sample, t, c)
+        "pgx/detected_variants/%s_%s.annotated.csv" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/reform_genomic_region/sample_target_list/%s_%s_%s.target_interval.list" % (sample, t, c)
+        "pgx/reform_genomic_region/sample_target_list/%s_%s.target_interval.list" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     output_files += [
         "pgx/depth_of_coverage/depth_of_baits/%s_%s_%s.output.gdf" % (sample, t, c)
@@ -123,27 +120,23 @@ def compile_output_list(wildcards):
         for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/depth_of_coverage/depth_of_targets/%s_%s_%s.depth_at_missing.gdf" % (sample, t, c)
+        "pgx/depth_of_coverage/depth_of_targets/%s_%s.depth_at_missing.gdf" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/get_clinical_guidelines/%s_%s_%s.output.csv" % (sample, t, c)
+        "pgx/get_clinical_guidelines/%s_%s.output.csv" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/get_interaction_guidelines/%s_%s_%s.output.csv" % (sample, t, c)
+        "pgx/get_interaction_guidelines/%s_%s.output.csv" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     output_files += [
-        "pgx/append_id_to_gdf/%s_%s_%s.depth_at_missing_annotated.gdf" % (sample, t, c)
+        "pgx/append_id_to_gdf/%s_%s.depth_at_missing_annotated.gdf" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     return output_files

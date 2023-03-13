@@ -73,18 +73,18 @@ rule get_padded_baits:
 rule sample_target_list:
     input:
         target_bed=config.get("reference", {}).get("design_rsid", ""),
-        detected_variants="pgx/detected_variants/{sample}_{type}_{chr}.annotated.csv",
+        detected_variants="pgx/detected_variants/{sample}_{type}.annotated.csv",
     output:
-        interval="pgx/reform_genomic_region/sample_target_list/{sample}_{type}_{chr}.target_interval.list",
+        interval="pgx/reform_genomic_region/sample_target_list/{sample}_{type}.target_interval.list",
     params:
         extra=config.get("sample_target_list", {}).get("extra", ""),
         padding=config.get("sample_target_list", {}).get("padding", "0"),
         file_format=config.get("sample_target_list", {}).get("file_format", "list"),
     log:
-        "pgx/reform_genomic_region/sample_target_list/{sample}_{type}_{chr}.target_interval.list.log",
+        "pgx/reform_genomic_region/sample_target_list/{sample}_{type}.target_interval.list.log",
     benchmark:
         repeat(
-            "pgx/reform_genomic_region/sample_target_list/{sample}_{type}_{chr}.target_interval.list.benchmark.tsv",
+            "pgx/reform_genomic_region/sample_target_list/{sample}_{type}.target_interval.list.benchmark.tsv",
             config.get("sample_target_list", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("sample_target_list", {}).get("threads", config["default_resources"]["threads"])

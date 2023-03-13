@@ -40,6 +40,18 @@ use rule bed_split from snv_indels as snv_indels_bed_split with:
 use rule haplotypecaller from snv_indels as snv_indels_haplotypecaller
 
 
+use rule bgzip from snv_indels as snv_indels_bgzip
+
+
+use rule tabix from snv_indels as snv_indels_tabix
+
+
+use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat
+
+
+#use rule bcftools_sort from snv_indels as snv_indels_bcftools_sort
+
+
 module alignment:
     snakefile:
         github("hydra-genetics/alignment", path="workflow/Snakefile", tag="v0.2.0")
@@ -54,3 +66,10 @@ use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicat
 
 
 use rule samtools_index from alignment as alignment_samtools_index
+
+
+use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam
+
+
+use rule samtools_sort from alignment as alignment_samtools_sort
+

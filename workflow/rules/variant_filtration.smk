@@ -6,17 +6,17 @@ __license__ = "GPL-3"
 
 rule variant_filtration:
     input:
-        vcf="snv_indels/haplotypecaller/{sample}_{type}_{chr}.vcf",
+        vcf="snv_indels/haplotypecaller/{sample}_{type}.merged.vcf",
     output:
-        filtered_vcf="pgx/variant_filtration/{sample}_{type}_{chr}.filtered.vcf",
+        filtered_vcf="pgx/variant_filtration/{sample}_{type}.filtered.vcf",
     params:
         read_ratio=config.get("variant_filtration", {}).get("read_ratio", ""),
         read_depth=config.get("variant_filtration", {}).get("read_depth", ""),
     log:
-        "pgx/variant_filtration/{sample}_{type}_{chr}.output.log",
+        "pgx/variant_filtration/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "pgx/variant_filtration/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/variant_filtration/{sample}_{type}.output.benchmark.tsv",
             config.get("variant_filtration", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("variant_filtration", {}).get("threads", config["default_resources"]["threads"])

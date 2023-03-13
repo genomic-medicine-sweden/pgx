@@ -6,9 +6,9 @@ __license__ = "GPL-3"
 
 rule get_clinical_guidelines:
     input:
-        found_variants="pgx/detected_variants/{sample}_{type}_{chr}.annotated.csv",
+        found_variants="pgx/detected_variants/{sample}_{type}.annotated.csv",
     output:
-        csv="pgx/get_clinical_guidelines/{sample}_{type}_{chr}.output.csv",
+        csv="pgx/get_clinical_guidelines/{sample}_{type}.output.csv",
     params:
         haplotype_definitions=config.get("get_clinical_guidelines", {}).get("haplotype_definitions", ""),
         clinical_guidelines=config.get("get_clinical_guidelines", {}).get("clinical_guidelines", ""),
@@ -16,10 +16,10 @@ rule get_clinical_guidelines:
         hidden_haplotypes=config.get("get_clinical_guidelines", {}).get("hidden_haplotypes", ""),
         extra=config.get("get_clinical_guidelines", {}).get("extra", ""),
     log:
-        "pgx/get_clinical_guidelines/{sample}_{type}_{chr}.output.log",
+        "pgx/get_clinical_guidelines/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "pgx/get_clinical_guidelines/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/get_clinical_guidelines/{sample}_{type}.output.benchmark.tsv",
             config.get("get_clinical_guidelines", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("get_clinical_guidelines", {}).get("threads", config["default_resources"]["threads"])
