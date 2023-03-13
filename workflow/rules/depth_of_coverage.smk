@@ -8,16 +8,16 @@ rule depth_of_baits:
     input:
         intervals="pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
-        bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
     output:
-        gdf="pgx/depth_of_coverage/depth_of_baits/{sample}_{type}_{chr}.output.gdf",
+        gdf="pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf",
     params:
         extra=config.get("depth_of_baits", {}).get("extra", ""),
     log:
-        "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}_{chr}.output.log",
+        "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.benchmark.tsv",
             config.get("depth_of_baits", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("depth_of_baits", {}).get("threads", config["default_resources"]["threads"])

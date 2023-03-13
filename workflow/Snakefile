@@ -27,7 +27,7 @@ rule all:
 
 module snv_indels:
     snakefile:
-        github("hydra-genetics/snv_indels", path="workflow/Snakefile", tag="v0.2.0")
+        github("hydra-genetics/snv_indels", path="workflow/Snakefile", tag="v0.3.0")
     config:
         config
 
@@ -37,7 +37,12 @@ use rule bed_split from snv_indels as snv_indels_bed_split with:
         bed="pgx/reform_genomic_region/get_padded_bed/padded_bait_interval.bed",
 
 
-use rule haplotypecaller from snv_indels as snv_indels_haplotypecaller
+use rule haplotypecaller from snv_indels as snv_indels_haplotypecaller with:
+    input:
+        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
+        bai="alignment/picard_mark_duplicates/{sample}_{type}.bam.bai",
+        fasta=config["reference"]["fasta"],
+        bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
 
 
 use rule bgzip from snv_indels as snv_indels_bgzip
@@ -47,29 +52,3 @@ use rule tabix from snv_indels as snv_indels_tabix
 
 
 use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat
-
-
-#use rule bcftools_sort from snv_indels as snv_indels_bcftools_sort
-
-
-module alignment:
-    snakefile:
-        github("hydra-genetics/alignment", path="workflow/Snakefile", tag="v0.2.0")
-    config:
-        config
-
-
-use rule samtools_extract_reads from alignment as alignment_samtools_extract_reads
-
-
-use rule picard_mark_duplicates from alignment as alignment_picard_mark_duplicates
-
-
-use rule samtools_index from alignment as alignment_samtools_index
-
-
-use rule samtools_merge_bam from alignment as alignment_samtools_merge_bam
-
-
-use rule samtools_sort from alignment as alignment_samtools_sort
-

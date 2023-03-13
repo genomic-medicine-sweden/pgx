@@ -74,19 +74,7 @@ wildcard_constraints:
 def compile_output_list(wildcards):
     output_files = ["pgx/reform_genomic_region/get_padded_bed/padded_bait_interval.bed"]
     output_files += ["pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list"]
-    output_files += [
-        "alignment/samtools_extract_reads/%s_%s_%s.bam" % (sample, t, c)
-        for sample in get_samples(samples)
-        for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
-    ]
     output_files += ["snv_indels/bed_split/design_bedfile_%s.bed" % (c) for c in get_choromosomes(design)]
-    output_files += [
-        "alignment/picard_mark_duplicates/%s_%s_%s.bam" % (sample, t, c)
-        for sample in get_samples(samples)
-        for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
-    ]
     output_files += [
         "snv_indels/haplotypecaller/%s_%s_%s.vcf" % (sample, t, c)
         for sample in get_samples(samples)
@@ -114,10 +102,9 @@ def compile_output_list(wildcards):
         for t in get_unit_types(units, sample)
     ]
     output_files += [
-        "pgx/depth_of_coverage/depth_of_baits/%s_%s_%s.output.gdf" % (sample, t, c)
+        "pgx/depth_of_coverage/depth_of_baits/%s_%s.output.gdf" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
-        for c in get_choromosomes(design)
     ]
     output_files += [
         "pgx/depth_of_coverage/depth_of_targets/%s_%s.depth_at_missing.gdf" % (sample, t)
