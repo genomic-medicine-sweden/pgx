@@ -6,7 +6,7 @@ describe_workflow.rst
 describe_jupyter_notebook.txt
 pgx/
 data/
-#alignment/
+alignment/
 snv_indels/
 tmp/
 *.bai
