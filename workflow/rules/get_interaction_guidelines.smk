@@ -6,17 +6,17 @@ __license__ = "GPL-3"
 
 rule get_interaction_guidelines:
     input:
-        diploids="pgx/get_clinical_guidelines/{sample}_{type}_{chr}.output.csv",
+        diploids="pgx/get_clinical_guidelines/{sample}_{type}.output.csv",
     output:
-        csv="pgx/get_interaction_guidelines/{sample}_{type}_{chr}.output.csv",
+        csv="pgx/get_interaction_guidelines/{sample}_{type}.output.csv",
     params:
         interacting_targets=config.get("get_interaction_guidelines", {}).get("interaction_guidelines"),
         extra=config.get("get_interaction_guidelines", {}).get("extra", ""),
     log:
-        "pgx/get_interaction_guidelines/{sample}_{type}_{chr}.output.log",
+        "pgx/get_interaction_guidelines/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "pgx/get_interaction_guidelines/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/get_interaction_guidelines/{sample}_{type}.output.benchmark.tsv",
             config.get("get_interaction_guidelines", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("get_interaction_guidelines", {}).get("threads", config["default_resources"]["threads"])

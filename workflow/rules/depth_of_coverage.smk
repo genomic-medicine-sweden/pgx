@@ -8,16 +8,16 @@ rule depth_of_baits:
     input:
         intervals="pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
-        bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
     output:
-        gdf="pgx/depth_of_coverage/depth_of_baits/{sample}_{type}_{chr}.output.gdf",
+        gdf="pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf",
     params:
         extra=config.get("depth_of_baits", {}).get("extra", ""),
     log:
-        "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}_{chr}.output.log",
+        "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.benchmark.tsv",
             config.get("depth_of_baits", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("depth_of_baits", {}).get("threads", config["default_resources"]["threads"])
@@ -39,18 +39,18 @@ rule depth_of_baits:
 
 rule depth_of_targets:
     input:
-        intervals="pgx/reform_genomic_region/sample_target_list/{sample}_{type}_{chr}.target_interval.list",
+        intervals="pgx/reform_genomic_region/sample_target_list/{sample}_{type}.target_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
-        bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
     output:
-        "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}_{chr}.depth_at_missing.gdf",
+        "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.depth_at_missing.gdf",
     params:
         extra=config.get("depth_of_targets", {}).get("extra", ""),
     log:
-        "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}_{chr}.output.log",
+        "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.output.benchmark.tsv",
             config.get("depth_of_targets", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("depth_of_targets", {}).get("threads", config["default_resources"]["threads"])

@@ -32,7 +32,9 @@ corresponding forward and reverse reads. Also indicate the sample id, run id and
 
 ### Reference data
 
-1. You need a ...
+1. You need a BAM file marked for duplicates
+2. Reference genome
+3. dbSNP database in VCF file format
 
 ## :white_check_mark: Testing
 
@@ -61,4 +63,3 @@ snakemake -s /path/to/Snakefile --profile my-awesome-profile
 ## :judge: Rule Graph
 
 ![rule_graph](https://github.com/genomic-medicine-sweden/pgx/blob/develop/images/dag.svg)
-
