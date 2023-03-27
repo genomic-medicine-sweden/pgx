@@ -52,7 +52,7 @@ get_clinical_guidelines:
   hidden_haplotypes: "reference/hidden_haplotypes.csv"
 
 get_interaction_guidelines:
-    interaction_guidelines: "reference/interaction_guidelines.csv"
+  interaction_guidelines: "reference/interaction_guidelines.csv"
 
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
@@ -60,3 +60,11 @@ reference:
   fasta: "reference/hg19.chr6.fasta"
   fai: "reference/hg19.chr6.fasta.fai"
   dbsnp: "reference/dbsnp_138.sub.vcf.gz"
+
+generate_pgx_report:
+  name: "Frodo Baggins"
+  address: "Bag End, Hobbiton"
+  email: "frodo_baggins@com"
+  phone_number: "07xxxxxxx"
+  author: "che"
+  container: "/data/sifs/pgx_module/rmarkdown.simg"

@@ -1,0 +1,222 @@
+---
+css: "style.css"
+params:
+  title: "Missing title"
+  found_variants: "Missing found variants"
+  missed_variants: "Missing missed variants"
+  haplotype_definitions: "Missing haplotype defs"
+  clinical_guidelines: "Missing clinical guidelines"
+  interaction_guidelines: "Missing interaction guidelines"
+  data_location: "Missing data location"
+  depth_file: "Missing depth file"
+  sample: "Missing sample info"
+  dbsnp: "Missing dbsnp"
+  ref: "Missing ref"
+  name: "Missing name"
+  adress: "Missing address"
+  mail: "Missing mail"
+  phone: "Missing phone"
+title: "`r params$title`"
+date: "Date compiled: `r format(Sys.time(), '%d %B, %Y, %H:%M')`"
+output_format:
+  html_document:
+    toc: TRUE
+---
+
+
+```{r input, include=FALSE, echo=FALSE}
+
+library(rmdformats)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+source("Plotly_coverage_plot.R")
+
+
+detected_variants <- read.csv(params$found_variants, sep = "\t", stringsAsFactors = F, row.names = NULL)
+missed_variants <- read.csv(params$missed_variants, sep = "\t", stringsAsFactors = F,  row.names = NULL)
+haplotype_definitions <- read.csv(params$haplotype_definitions, sep = "\t", stringsAsFactors = F,  row.names = NULL)
+clinical_guidelines <- read.csv(params$clinical_guidelines, sep = "\t", stringsAsFactors = F,  row.names = NULL)
+interaction_guidelines <- read.csv(params$interaction_guidelines, sep = "\t", stringsAsFactors = F,  row.names = NULL)
+
+# Functions
+risk_duplication <- function(x){
+  min_dup_var <- min(abs(c(1/4, 1/3, 2/3, 3/4) - x))
+  min_diploid <- min(abs(c(0, 1/2, 1) - x))
+  if (min_dup_var > min_diploid){
+    return(FALSE)
+  }
+  return(TRUE)
+}
+
+get_haplotypes <- function(ID, haplotype_definitions=haplotype_definitions) {
+  haplo <- haplotype_definitions[haplotype_definitions$ID == ID, "HAPLOTYPE"]
+  return(paste(haplo, collapse = "/"))
+}
+
+
+# Formating
+detected_variants$Zygosity <- sapply(detected_variants$GT, function(x){
+  b <- sum(as.numeric(strsplit(x, "[/|]", perl=T)[[1]]))
+  return(c("Hetero-", "Homo-")[b])
+})
+risk_haplotypes <- array()
+if (nrow(detected_variants) != 0) {
+  detected_variants$Position <- sapply(1:nrow(detected_variants), function(i) paste0(detected_variants[i, 1], ":", detected_variants[i, "POS"]))
+  detected_variants <- detected_variants %>% separate("AD", c("Ref.reads", "Alt.reads"), ",", remove=F)
+  detected_variants[, "Ref.reads"] <- as.numeric(detected_variants[, "Ref.reads"])
+  detected_variants[, "Alt.reads"] <- as.numeric(detected_variants[, "Alt.reads"])
+  detected_variants$Haplotype <-
+    sapply(detected_variants$ID, function(x) get_haplotypes(x, haplotype_definitions))
+  columns <- c("Position", "GENE", "ID", "Haplotype", "Zygosity",  "Ref.reads", "Alt.reads", "GQ")
+
+  detected_variants_present <- detected_variants[, columns]
+  detected_variants_present[, "Variantfrekvens"] <- detected_variants_present[, "Alt.reads"]/(detected_variants_present[, "Alt.reads"] + detected_variants_present[, "Ref.reads"])
+  detected_variants_present[, "Möjlig Duplikation"] <- sapply(detected_variants_present[, "Variantfrekvens"], risk_duplication)
+  faulty_haplotypes <- detected_variants_present[detected_variants_present[, "Möjlig Duplikation"] == TRUE, "Haplotype"]
+
+  faulty_haplotypes <- unique(unlist(sapply(faulty_haplotypes, function(x) strsplit(x, "/"))))
+} else {
+  faulty_haplotypes <- array()
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Provdetaljer
+
+```{r}
+header_table <- data.frame(
+  row_table = c("Prov ID", "dbSNP", "Referensgenomens sökväg"),
+  text = c(params$sample, params$dbsnp, params$ref)
+)
+kable(header_table, col.names=NULL) %>%
+  kable_styling(full_width=T, bootstrap_options="striped") %>%
+  column_spec(1, bold=T, border_right=T, width="15em")
+
+```
+
+# Kliniska rekommendationer baserade på genotyper
+
+```{r}
+clin_columns <- c("gene", "Haplotype1", "Haplotype2", "Guideline")
+verbose_columns <- c("Gen", "Haplotyp 1", "Haplotyp 2", "Klinisk Rekommendation")
+clinical_guidelines_present <- clinical_guidelines[, clin_columns]
+colnames(clinical_guidelines_present) <- verbose_columns
+
+warning_idx <- which(clinical_guidelines_present[, "Haplotyp 1"] %in% faulty_haplotypes | clinical_guidelines_present[, "Haplotyp 2"] %in% faulty_haplotypes)
+
+clinical_guidelines_present %>%
+    kable(format = "html", escape = F) %>%
+    kable_styling() %>%
+    row_spec(warning_idx, bold=T, color ="white", background = "red")
+
+```
+
+```{r results="asis"}
+if (length(warning_idx) != 0){
+  cat("<b><u>En eller flera varianter som tillhör haplotyp har flaggats som osäker.\n Följ inte rödmarkerade kliniska rekommendationer! </u></b>")
+}
+```
+
+# Kliniska rekommendationer baserade på interaktioner mellan genotyper
+```{r}
+if (nrow(interaction_guidelines) != 0) {
+  interaction_warning_idx <-
+          which(sapply(interaction_guidelines[,"haplotypes"], function(x) any(strsplit(x, ",") %in% faulty_haplotypes)))
+} else {
+  interaction_warning_idx <- integer(0)
+}
+interaction_guidelines %>%
+    kable(format = "html", escape = F) %>%
+    kable_styling() %>%
+    row_spec(interaction_warning_idx, bold=T, color ="white", background = "red")
+```
+
+# Kliniskt relevanta varianter upptäckta
+
+```{r detected_variants}
+if (nrow(detected_variants) != 0 ){
+  order_columns <- c("GENE", "ID", "Haplotype", "Position", "Zygosity", "Variantfrekvens", "Möjlig Duplikation")
+
+  verbose_columns <- c(
+    "Gen", "rsID", "Möjliga Haplotyper", "Position",
+    "Zygositet", "Variantfrekvens", "Möjlig Duplikation"
+  )
+  detected_variants_present <- detected_variants_present[, order_columns]
+  colnames(detected_variants_present) <- verbose_columns
+
+  detected_variants_present %>%
+    kable() %>%
+    kable_styling() %>%
+    row_spec(which(detected_variants_present[, "Möjlig Duplikation"] == T), bold=T, color="white", background="red")
+}
+```
+
+# Läsdjup vid vildtyp kliniska targets
+
+```{r coverage_wildtype}
+columns <- c("ID", "Haplotype", "Locus", "Total_Depth")
+missed_variants$Haplotype <-
+  sapply(missed_variants$ID, function(x) get_haplotypes(x, haplotype_definitions))
+missed_variants <- missed_variants[, columns]
+colnames(missed_variants) <- c("rsID", "Haplotyp", "Position", "Läsjup")
+missed_variants %>%
+  kable() %>%
+  kable_styling() %>%
+  row_spec(which(missed_variants[, "Läsjup"] < 100), bold=T, color ="white", background = "red") # hardcoded bad
+```
+
+# Läsdjup vid targets
+
+```{r}
+## TODO: Avoid the hard coded paths but pass these as params to this Rmd
+bait_table_file <- paste0(params$data_location,"/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed")
+
+genes <- read.table(bait_table_file, 
+                    sep = "\t", 
+                    as.is=T, 
+                    check.names = F, 
+                    col.names = c("Chr", "Start", "End", "Name")) %>%
+    separate(Name, c("Target", "Gene"), "_") %>% 
+    {unique(.$Gene)}
+
+plt  <- htmltools::tagList()
+i    <- 0
+for (gene in genes){
+  i <- i + 1
+  exon_table_file <- paste0(params$data_location, "/exons/", gene,".csv")
+  target_table_file <- paste0(params$data_location, "/genomic_regions/target_rsid.bed")
+  gdf_file <- params$depth_file
+
+  plt[[i]] <- as_widget(get_plotly_depth_plot(
+    params$found_variants,
+    target_table_file,
+    bait_table_file,
+    gdf_file,
+    exon_table_file,
+    gene))
+}
+```
+
+```{r}
+plt
+```
+
+
+# Kontaktinformation
+
+```{r}
+info_table <- data.frame(
+  name = c("Kontaktperson", "Email", "Telefon", "Adress"),
+  value = c( params$name, params$mail, params$phone, params$adress)
+)
+kable(info_table, col.names=NULL) %>%
+  kable_styling(full_width=T, bootstrap_options="striped") %>%
+  column_spec(1, bold=T, border_right=T, width="15em")
+```
+
+# Appendix
+Här kommer allmän info bo  om gener och deras deras koppling till läkemedel samt vilken typ av biblioteksprepp, sekvenseringsinstument  och dylikt.
