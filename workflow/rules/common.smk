@@ -127,7 +127,7 @@ def compile_output_list(wildcards):
         for t in get_unit_types(units, sample)
     ]
     output_files += [
-        "pgx/generate_pgx_report/%s_%s_pgx_report.html" % (sample, t)
+        "pgx/generate_pgx_report/%s_%s_pgx_report.txt" % (sample, t)
         for sample in get_samples(samples)
         for t in get_unit_types(units, sample)
     ]

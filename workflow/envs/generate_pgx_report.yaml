@@ -3,4 +3,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - r==3.6.0
+  - pandas==1.4.1
