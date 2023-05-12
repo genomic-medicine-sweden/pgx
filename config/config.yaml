@@ -1,5 +1,4 @@
 ---
-
 resources: "config/resources.yaml"
 samples: "config/samples.tsv"
 units: "config/units.tsv"
@@ -61,4 +60,7 @@ get_clinical_guidelines:
   hidden_haplotypes: "data/haplotypes/hidden_haplotypes.csv"
 
 get_interaction_guidelines:
-  interaction_guidelines: "data/guidelines/interaction_guidelines.csv"   
+  interaction_guidelines: "data/guidelines/interaction_guidelines.csv"
+
+generate_pgx_report:
+  analyzed_variants: "data/haplotypes/analyzed_variants.txt"
