@@ -28,15 +28,15 @@ def get_interaction_haplotypes(interaction_guidelines):
     haplotypes = interaction_guidelines['haplotypes'].to_list()
     haplotypes = haplotypes[0].split(',')
 
-    haplo_nud = ''
-    haplo_tpm = ''
+    haplo_nudt = ''
+    haplo_tpmt = ''
     for haplo in haplotypes:
         if 'NUDT' in haplo:
-            haplo_nud = haplo_nud + haplo + '/'
+            haplo_nudt = f"{haplo_nudt}/{haplo}"
         if 'TPMT' in haplo:
-            haplo_tpm = haplo_tpm + haplo + '/'
+            haplo_tpmt = f"{haplo_tpmt}/{haplo}"
 
-    new_haplo = haplo_nud + ',' + haplo_tpm
+    new_haplo = f"{haplo_nudt},{haplo_tpmt}"
     new_haplo = new_haplo.replace('/,', ',')
     new_haplo = new_haplo[:len(new_haplo) - 1]
     interaction_guidelines['haplotypes'] = new_haplo
@@ -116,11 +116,6 @@ def get_recommendations(found_variants, haplotype_definitions,
     warning_idx = np.array(
         clinical_guidelines_present.isin(faulty_haplotypes)).nonzero()[0]
 
-    if (len(warning_idx) != 0):
-        print(
-            "<b><u>En eller flera varianter som tillhör haplotyp har flaggats som osäker. \
-            \n Följ inte rödmarkerade kliniska rekommendationer! </u></b>")
-
     interaction_guidelines = get_interaction_haplotypes(interaction_guidelines)
 
     if interaction_guidelines.shape[0] != 0:
@@ -129,24 +124,29 @@ def get_recommendations(found_variants, haplotype_definitions,
                 lambda x: x.split(',') in faulty_haplotypes)).nonzero()[0]
     else:
         interaction_warning_idx = 0
+    
+    clinical_guidelines_present['Klinisk Rekommendation'] = clinical_guidelines_present['Klinisk Rekommendation'].str.replace('<b>', '')
 
     with open(report, 'w') as writer:
-        writer.write('DPYD\n' + 'Genotype: ' + clinical_guidelines_present.loc[
+        if (len(warning_idx) != 0):
+            writer.write("<b><u>En eller flera varianter som tillhör haplotyp har flaggats som osäker. \
+            \n Följ inte kliniska rekommendationer markerade med 'WARN'! </u></b>")
+        writer.write('DPYD' + '\nGenotype: ' + clinical_guidelines_present.loc[
             clinical_guidelines_present['Gen'] ==
             'DPYD']['Haplotyp 1'].values[0] + '/' +
-                     clinical_guidelines_present.loc[
-                         clinical_guidelines_present['Gen'] == 'DPYD']
-                     ['Haplotyp 2'].values[0] + '\n')
+                    clinical_guidelines_present.loc[
+                        clinical_guidelines_present['Gen'] == 'DPYD']
+                    ['Haplotyp 2'].values[0] + '\n')
         writer.write('Klinisk rekommendation:\n ' +
-                     clinical_guidelines_present.loc[
-                         clinical_guidelines_present['Gen'] == 'DPYD']
-                     ['Klinisk Rekommendation'].values[0] + '\n')
+                    clinical_guidelines_present.loc[
+                        clinical_guidelines_present['Gen'] == 'DPYD']
+                    ['Klinisk Rekommendation'].values[0] + '\n')
         writer.write('\n' + 'TPMT-NUDT15\nGenotype: ' +
-                     interaction_guidelines['haplotypes'].values[0] +
-                     '\nKlinisk rekommendation:\n' +
-                     interaction_guidelines['Guideline'].values[0])
+                        interaction_guidelines['haplotypes'].values[0] +
+                        '\nKlinisk rekommendation:\n' +
+                        interaction_guidelines['Guideline'].values[0])
         writer.write('\n\n\n\n\nAnalyserade varianter:\n' +
-                     get_analyzed_variants(analyzed_variants))
+                        get_analyzed_variants(analyzed_variants))
 
 
 if __name__ == "__main__":
