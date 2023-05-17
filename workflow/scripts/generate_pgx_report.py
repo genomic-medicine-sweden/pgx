@@ -52,7 +52,7 @@ def get_analyzed_variants(analyzed_variants):
 def get_recommendations(found_variants, haplotype_definitions,
                         clinical_guidelines_p, interaction_guidelines_p,
                         report, analyzed_variants):
-    detected_variants = pd.read_csv(found_variants, sep=',')
+    detected_variants = pd.read_csv(found_variants, sep='\t')
     haplotype_definitions = pd.read_csv(haplotype_definitions, sep='\t')
     clinical_guidelines = pd.read_csv(clinical_guidelines_p, sep='\t')
     interaction_guidelines = pd.read_csv(interaction_guidelines_p, sep='\t')
@@ -76,7 +76,7 @@ def get_recommendations(found_variants, haplotype_definitions,
             int)
         detected_variants['Haplotype'] = detected_variants['ID'].map(
             lambda x: get_haplotypes(x, haplotype_definitions))
-        columns = detected_variants.columns[-9:].drop('PL')
+        columns = detected_variants.columns[2:].drop('PL')
         detected_variants_present = detected_variants[columns]
         detected_variants_present[
             'Variantfrekvens'] = detected_variants_present.loc[:, 'Alt.reads'].div(
