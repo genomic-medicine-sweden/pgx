@@ -32,9 +32,9 @@ def get_interaction_haplotypes(interaction_guidelines):
     haplo_tpmt = ''
     for haplo in haplotypes:
         if 'NUDT' in haplo:
-            haplo_nudt = f"{haplo_nudt}/{haplo}"
+            haplo_nudt = f"{haplo_nudt}{haplo}/"
         if 'TPMT' in haplo:
-            haplo_tpmt = f"{haplo_tpmt}/{haplo}"
+            haplo_tpmt = f"{haplo_tpmt}{haplo}/"
 
     new_haplo = f"{haplo_nudt},{haplo_tpmt}"
     new_haplo = new_haplo.replace('/,', ',')
@@ -127,8 +127,9 @@ def get_recommendations(found_variants, haplotype_definitions,
 
     clinical_guidelines_present[
         'Klinisk Rekommendation'] = clinical_guidelines_present[
-            'Klinisk Rekommendation'].str.replace('<b>', '')
-
+            'Klinisk Rekommendation'].str.replace(r'<[^>]+>', '', regex=True)
+    interaction_guidelines['Guideline'] = interaction_guidelines[
+        'Guideline'].str.replace(r'<[^>]+>', '', regex=True)
     with open(report, 'w') as writer:
         if (len(warning_idx) != 0):
             writer.write(
