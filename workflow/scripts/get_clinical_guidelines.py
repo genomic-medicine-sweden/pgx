@@ -93,7 +93,6 @@ class ArrangeHaplotype:
         for gene in genes:
             gene_subset = self.detected_variants[self.detected_variants.GENE ==
                                                  gene]
-            print(gene_subset)
             candidate_haplotypes = np.array(
                 list(
                     set([
@@ -110,9 +109,10 @@ class ArrangeHaplotype:
                     ])))
             candidate_haplotypes = candidate_haplotypes[order]
 
+            gene_haps = []
             for current_haplotype in candidate_haplotypes:
-                gene_haps = pd.concat(
-                    [_get_haplotypes(gene_subset.copy(), current_haplotype)])
+                gene_haps.append(
+                    _get_haplotypes(gene_subset.copy(), current_haplotype))
                 idx = gene_subset["multival_haplotype"].apply(
                     lambda x: current_haplotype in x)
                 cn = gene_subset.loc[idx, "CN"]
