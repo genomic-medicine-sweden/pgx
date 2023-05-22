@@ -31,6 +31,6 @@ rule get_interaction_guidelines:
     conda:
         "../envs/get_interaction_guidelines.yaml"
     message:
-        "{rule}: Given Haplotype Combinations, get possible interactions betweens these on {input}"
+        "{rule}: given Haplotype Combinations, get possible interactions betweens these on {input}"
     script:
         "../scripts/get_interaction_guidelines.py"
