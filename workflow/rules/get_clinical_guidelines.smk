@@ -34,6 +34,6 @@ rule get_clinical_guidelines:
     conda:
         "../envs/get_clinical_guidelines.yaml"
     message:
-        "{rule}: Given detected variants, get possible Haplotype combinations on {input}"
+        "{rule}: given detected variants, get possible Haplotype combinations on {input}"
     script:
         "../scripts/get_clinical_guidelines.py"
