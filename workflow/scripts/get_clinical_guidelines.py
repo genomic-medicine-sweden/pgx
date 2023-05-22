@@ -229,8 +229,6 @@ def main():
         df["comb"] = df[["Haplotype1", "Haplotype2"
                          ]].apply(lambda x: "".join(sorted(x.tolist())),
                                   axis=1)
-        print(df["comb"])
-        print(hidden_haplotypes["comb"])
         df = df[~df["comb"].isin(hidden_haplotypes["comb"])]
     df.to_csv(output, sep="\t", index=False, columns=columns)
 
