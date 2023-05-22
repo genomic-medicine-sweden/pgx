@@ -8,8 +8,7 @@ haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
   extra: "--dbsnp reference/dbsnp_138.sub.vcf.gz --standard-min-confidence-threshold-for-calling 1.0"
 
-padd_target_regions:
-  target_regions: "reference/exons_variants_pharmacogenomics.TPMT.bed"
+get_padded_bed:
   padding: 100
 
 picard_mark_duplicates:
@@ -26,26 +25,41 @@ variant_annotator:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
 
 detected_variants:
-  target_rsid: "reference/target_rsid.TPMT.bed"
+  file_type: "VCF"
 
 sample_target_list:
-  target_rsid: "reference/target_rsid.TPMT.bed"
   padding: 0
 
 get_padded_baits:
-  target_regions: "reference/exons_variants_pharmacogenomics.TPMT.bed"
   padding: 100
   file_format: "list"
 
 depth_of_baits:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
+  extra: "--output-format TABLE"
 
 depth_of_targets:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
+  extra: "--output-format TABLE"
+
+append_id_to_gdf:
+  file_type: "GDF"
+
+get_clinical_guidelines:
+  haplotype_definitions: "reference/haplotype_definitions.csv"
+  haplotype_activity: "reference/haplotype_activity_score.csv"
+  clinical_guidelines: "reference/clinical_guidelines.csv"
+  hidden_haplotypes: "reference/hidden_haplotypes.csv"
+
+get_interaction_guidelines:
+  interaction_guidelines: "reference/interaction_guidelines.csv"
 
 reference:
   design_bed: "reference/exons_variants_pharmacogenomics.TPMT.bed"
+  design_rsid: "reference/target_rsid.TPMT.bed"
   fasta: "reference/hg19.chr6.fasta"
   fai: "reference/hg19.chr6.fasta.fai"
   dbsnp: "reference/dbsnp_138.sub.vcf.gz"
-  target_regions: "reference/exons_variants_pharmacogenomics.TPMT.bed"
+
+generate_pgx_report:
+  analyzed_variants: "reference/analyzed_variants.txt"

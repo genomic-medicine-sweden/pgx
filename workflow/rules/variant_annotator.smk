@@ -6,20 +6,20 @@ __license__ = "GPL-3"
 
 rule variant_annotator:
     input:
-        vcf="pgx/variant_filtration/{sample}_{type}_{chr}.filtered.vcf",
-        aln="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        vcf="pgx/variant_filtration/{sample}_{type}.filtered.vcf",
+        aln="alignment/picard_mark_duplicates/{sample}_{type}.bam",
         ref=config.get("reference", {}).get("fasta", ""),
         db=config.get("reference", {}).get("dbsnp", ""),
     output:
-        vcf="pgx/variant_annotator/{sample}_{type}_{chr}.output.vcf",
+        vcf="pgx/variant_annotator/{sample}_{type}.annotated.vcf",
     params:
         extra="",  # optional "--resource-allele-concordance -A Coverage --expression db.END",
         java_opts="",  # optional
     log:
-        "pgx/variant_annotator/{sample}_{type}_{chr}.output.log",
+        "pgx/variant_annotator/{sample}_{type}.annotated.vcf.log",
     benchmark:
         repeat(
-            "pgx/variant_annotator/{sample}_{type}_{chr}.output.benchmark.tsv",
+            "pgx/variant_annotator/{sample}_{type}.annotated.vcf.benchmark.tsv",
             config.get("variant_annotator", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("variant_annotator", {}).get("threads", config["default_resources"]["threads"])

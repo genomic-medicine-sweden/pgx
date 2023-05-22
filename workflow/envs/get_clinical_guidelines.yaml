@@ -4,3 +4,4 @@ channels:
   - defaults
 dependencies:
   - pandas==1.4.1
+
