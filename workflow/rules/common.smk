@@ -4,6 +4,7 @@ __email__ = "massimiliano.volpe@liu.se, chelsea.ramsin@regionostergotland.se & l
 __license__ = "GPL-3"
 
 import pandas as pd
+import yaml
 from snakemake.utils import validate
 from snakemake.utils import min_version
 
@@ -17,8 +18,7 @@ hydra_min_version("0.11.0")
 
 min_version("6.8.0")
 
-### Set and validate config file
-
+# Set and validate config file
 if not workflow.overwrite_configfiles:
     sys.exit("At least one config file must be passed using --configfile/--configfiles, by command line or a profile!")
 
@@ -28,15 +28,13 @@ config = load_resources(config, config["resources"])
 validate(config, schema="../schemas/resources.schema.yaml")
 
 
-### Read and validate samples file
-
+# Read and validate samples file
 samples = pd.read_table(config["samples"], dtype=str).set_index("sample", drop=False)
 validate(samples, schema="../schemas/samples.schema.yaml")
 
 design = pd.read_table(config.get("reference", {}).get("design_bed", ""), dtype=str, index_col=0)
 
-### Read and validate units file
-
+# Read and validate units file
 units = (
     pandas.read_table(config["units"], dtype=str)
     .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
@@ -66,8 +64,7 @@ def get_choromosomes(genomic_regions: pd.DataFrame) -> typing.List[str]:
     return list(set([f"{str(region.Index)}" for region in genomic_regions.itertuples()]))
 
 
-### Set wildcard constraints
-
+# Set wildcard constraints
 wildcard_constraints:
     sample="|".join(samples.index),
     chr="[^_]+",
