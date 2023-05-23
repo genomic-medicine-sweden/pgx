@@ -1,0 +1,16 @@
+files:
+  - name: "_copy_detected_variants"
+    input: "pgx/detected_variants/{sample}_{type}.annotated.csv"
+    output: "results/dna/additional_files/pgx/{sample}_{type}.detected_variants.csv"
+
+  - name: "_copy_depth_of_baits"
+    input: "pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf"
+    output: "results/dna/additional_files/pgx/{sample}_{type}.depth_of_baits.gdf"
+
+  - name: "_copy_depth_at_missing"
+    input: "pgx/append_id_to_gdf/{sample}_{type}.depth_at_missing_annotated.gdf"
+    output: "results/dna/additional_files/pgx/{sample}_{type}.depth_at_missing_annotated.gdf"
+
+  - name: "_copy_pgx_report"
+    input: "pgx/generate_pgx_report/%s_%s_pgx_report.txt"
+    output: "results/dna/pgx/{sample}_{type}.pgx_report.txt"

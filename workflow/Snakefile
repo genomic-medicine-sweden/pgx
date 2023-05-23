@@ -23,7 +23,7 @@ report: "report/workflow.rst"
 
 rule all:
     input:
-        unpack(compile_output_list),
+        unpack(compile_output_file_list),
 
 
 module snv_indels:
