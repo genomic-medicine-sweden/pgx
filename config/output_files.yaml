@@ -12,5 +12,5 @@ files:
     output: "results/dna/additional_files/pgx/{sample}_{type}.depth_at_missing_annotated.gdf"
 
   - name: "_copy_pgx_report"
-    input: "pgx/generate_pgx_report/%s_%s_pgx_report.txt"
+    input: "pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt"
     output: "results/dna/pgx/{sample}_{type}.pgx_report.txt"

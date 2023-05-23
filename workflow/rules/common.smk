@@ -5,6 +5,7 @@ __license__ = "GPL-3"
 
 import pandas as pd
 import yaml
+import pathlib
 from snakemake.utils import validate
 from snakemake.utils import min_version
 
@@ -134,3 +135,6 @@ def generate_copy_rules(output_spec):
         rulestrings.append(rule_code)
 
     exec(compile("\n".join(rulestrings), "copy_result_files", "exec"), workflow.globals)
+
+
+generate_copy_rules(output_spec)
