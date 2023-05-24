@@ -7,7 +7,7 @@ __license__ = "GPL-3"
 rule variant_annotator:
     input:
         vcf="pgx/variant_filtration/{sample}_{type}.filtered.vcf",
-        aln="alignment/picard_mark_duplicates/{sample}_{type}.bam",
+        aln="alignment/samtools_merge_bam/{sample}_{type}.bam",
         ref=config.get("reference", {}).get("fasta", ""),
         db=config.get("reference", {}).get("dbsnp", ""),
     output:

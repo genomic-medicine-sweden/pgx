@@ -8,7 +8,7 @@ rule depth_of_baits:
     input:
         intervals="pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
-        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
     output:
         gdf="pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf",
     params:
@@ -41,7 +41,7 @@ rule depth_of_targets:
     input:
         intervals="pgx/reform_genomic_region/sample_target_list/{sample}_{type}.target_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
-        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
     output:
         "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.depth_at_missing.gdf",
     params:

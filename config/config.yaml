@@ -11,15 +11,34 @@ reference:
   fai: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.fai"
   dbsnp: "/data/ref_genomes/hg19/variation/dbsnp_138.vcf.gz"
 
+trimmer_software: "fastp_pe"
+
+bwa_mem:
+  container: "docker://hydragenetics/bwa_mem:0.7.17"
+  amb: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.amb"
+  ann: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.ann"
+  bwt: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.bwt"
+  pac: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.pac"
+  sa: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.sa"
+
+bwa_mem_merge:
+  extra: "-c -p"
+
+fastp_pe:
+  container: "docker://hydragenetics/fastp:0.20.1"
+
+picard_mark_duplicates:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+samtools_merge_bam:
+  extra: "-c -p"
+
 get_padded_bed:
   padding: 100
 
 haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
   extra: "--dbsnp /data/ref_genomes/hg19/variation/dbsnp_138.vcf.gz --standard-min-confidence-threshold-for-calling 1.0"
-
-picard_mark_duplicates:
-  container: "docker://hydragenetics/picard:2.25.0"
 
 snv_indels_haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
