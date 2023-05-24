@@ -31,8 +31,6 @@ rule variant_annotator:
         time=config.get("variant_annotator", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("variant_annotator", {}).get("container", config["default_container"])
-    conda:
-        "../envs/variant_annotator.yaml"
     message:
         "{rule}: annotate vcf on {input}"
     wrapper:

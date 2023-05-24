@@ -29,8 +29,6 @@ rule get_padded_bed:
         time=config.get("get_padded_bed", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("get_padded_bed", {}).get("container", config["default_container"])
-    conda:
-        "../envs/reform_genomic_region.yaml"
     message:
         "{rule}: padd bed file on {input}"
     script:
@@ -62,8 +60,6 @@ rule get_padded_baits:
         time=config.get("get_padded_baits", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("get_padded_baits", {}).get("container", config["default_container"])
-    conda:
-        "../envs/reform_genomic_region.yaml"
     message:
         "{rule}: padd bed file on {input}"
     script:
@@ -96,8 +92,6 @@ rule sample_target_list:
         time=config.get("sample_target_list", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("sample_target_list", {}).get("container", config["default_container"])
-    conda:
-        "../envs/reform_genomic_region.yaml"
     message:
         "{rule}: reform variants on {input}"
     script:

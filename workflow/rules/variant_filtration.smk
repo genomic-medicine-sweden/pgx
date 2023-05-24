@@ -28,8 +28,6 @@ rule variant_filtration:
         time=config.get("variant_filtration", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("variant_filtration", {}).get("container", config["default_container"])
-    conda:
-        "../envs/variant_filtration.yaml"
     message:
         "{rule}: filter vcf by read ratio and read depth on {input}"
     script:

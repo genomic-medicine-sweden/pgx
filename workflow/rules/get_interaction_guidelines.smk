@@ -28,8 +28,6 @@ rule get_interaction_guidelines:
         time=config.get("get_interaction_guidelines", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("get_interaction_guidelines", {}).get("container", config["default_container"])
-    conda:
-        "../envs/get_interaction_guidelines.yaml"
     message:
         "{rule}: given Haplotype Combinations, get possible interactions betweens these on {input}"
     script:
