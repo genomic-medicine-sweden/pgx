@@ -23,6 +23,26 @@ rule all:
         unpack(compile_output_file_list),
 
 
+module prealignment:
+    snakefile:
+        github("hydra-genetics/prealignment", path="workflow/Snakefile", tag="v1.1.0")
+    config:
+        config
+
+
+use rule * from prealignment as prealignment_*
+
+
+module alignment:
+    snakefile:
+        github("hydra-genetics/alignment", path="workflow/Snakefile", tag="v0.4.0")
+    config:
+        config
+
+
+use rule * from alignment as alignment_*
+
+
 module snv_indels:
     snakefile:
         github("hydra-genetics/snv_indels", path="workflow/Snakefile", tag="v0.3.0")
@@ -37,8 +57,8 @@ use rule bed_split from snv_indels as snv_indels_bed_split with:
 
 use rule haplotypecaller from snv_indels as snv_indels_haplotypecaller with:
     input:
-        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
-        bai="alignment/picard_mark_duplicates/{sample}_{type}.bam.bai",
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         fasta=config["reference"]["fasta"],
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
 
