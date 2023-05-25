@@ -1,0 +1,44 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: Output file specification
+type: object
+properties:
+  files:
+    description: Defines a list of output files
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          description: Descriptive name of the output file.
+          type: string
+        input:
+          description: >
+            Path to the file that should be copied to the output directory.
+            Snakemake wildcards referring to columns in `units` are allowed.
+            An input path that is `null` means that snakemake will find a rule
+            that will generate the output file at `output`, and not copy
+            an already generated file.
+          type:
+            - string
+            - "null"
+          format: uri
+        output:
+          description: >
+            Relative path within the output directory where `inputfile` should
+            be copied to. Snakemake wildcards referring to columns in `units`
+            are allowed.
+          type: string
+          format: uri
+        types:
+          description: >
+            Used to filter which sample types that will be included.
+          type: array
+          items:
+            type: string
+            pattern: ^(N|T|R)$
+      required:
+        - name
+        - input
+        - output
+required:
+  - files
