@@ -30,8 +30,6 @@ rule padd_target_regions:
         time=config.get("padd_target_regions", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("padd_target_regions", {}).get("container", config["default_container"])
-    conda:
-        "../envs/padd_target_regions.yaml"
     message:
         "{rule}: padd bed file on {input}"
     script:

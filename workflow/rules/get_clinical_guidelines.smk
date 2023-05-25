@@ -31,8 +31,6 @@ rule get_clinical_guidelines:
         time=config.get("get_clinical_guidelines", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("get_clinical_guidelines", {}).get("container", config["default_container"])
-    conda:
-        "../envs/get_clinical_guidelines.yaml"
     message:
         "{rule}: given detected variants, get possible Haplotype combinations on {input}"
     script:
