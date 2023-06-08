@@ -14,7 +14,7 @@ rule generate_pgx_report:
         report="pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt",
     params:
         haplotype_definitions=config.get("get_clinical_guidelines", {}).get("haplotype_definitions", ""),
-        analyzed_variants=config.get("generate_pgx_report", {}).get("analyzed_variants", ""),
+        report_template=config.get("generate_pgx_report", {}).get("report_template", ""),
     log:
         "pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt.output.log",
     benchmark:
