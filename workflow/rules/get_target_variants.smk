@@ -29,8 +29,6 @@ rule detected_variants:
         time=config.get("detected_variants", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("detected_variants", {}).get("container", config["default_container"])
-    conda:
-        "../envs/get_target_variants.yaml"
     message:
         "{rule}: get variants with target rsIDs on {input}"
     script:
@@ -62,8 +60,6 @@ rule append_id_to_gdf:
         time=config.get("append_id_to_gdf", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("append_id_to_gdf", {}).get("container", config["default_container"])
-    conda:
-        "../envs/get_target_variants.yaml"
     message:
         "{rule}: add variant id to appropriate location in {input}"
     script:

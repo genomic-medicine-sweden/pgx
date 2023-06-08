@@ -31,8 +31,6 @@ rule generate_pgx_report:
         time=config.get("generate_pgx_report", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("generate_pgx_report", {}).get("container", config["default_container"])
-    conda:
-        "../envs/generate_pgx_report.yaml"
     message:
         "{rule}: Generates markdown report per sample pgx/{rule}/{wildcards.sample}_{wildcards.type}.input"
     script:

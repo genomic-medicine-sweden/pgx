@@ -8,7 +8,7 @@ rule depth_of_baits:
     input:
         intervals="pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
-        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
     output:
         gdf="pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf",
     params:
@@ -29,8 +29,6 @@ rule depth_of_baits:
         time=config.get("depth_of_baits", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("depth_of_baits", {}).get("container", config["default_container"])
-    conda:
-        "../envs/depth_of_coverage.yaml"
     message:
         "{rule}: get read depth of baits on {input.bam}"
     wrapper:
@@ -41,7 +39,7 @@ rule depth_of_targets:
     input:
         intervals="pgx/reform_genomic_region/sample_target_list/{sample}_{type}.target_interval.list",
         fasta=config.get("reference", {}).get("fasta", ""),
-        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
     output:
         "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.depth_at_missing.gdf",
     params:
@@ -62,8 +60,6 @@ rule depth_of_targets:
         time=config.get("depth_of_targets", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("depth_of_targets", {}).get("container", config["default_container"])
-    conda:
-        "../envs/depth_of_coverage.yaml"
     message:
         "{rule}: get read depth of variant locations at wildtrype-called positions on {input.bam}"
     wrapper:

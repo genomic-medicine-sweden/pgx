@@ -33,8 +33,6 @@ properties:
     description: flowcell barcode
 required:
   - adapter
-  - fastq1
-  - fastq2
   - flowcell
   - lane
   - platform
@@ -42,3 +40,5 @@ required:
   - type
   - machine
   - barcode
+  - fastq1
+  - fastq2

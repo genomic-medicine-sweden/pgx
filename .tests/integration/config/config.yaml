@@ -1,8 +1,25 @@
 resources: "config/resources.yaml"
 samples: "samples.tsv"
 units: "units.tsv"
+output: "../../config/output_files.yaml"
 
-default_container: "docker://hydragenetics/common:0.1.9"
+default_container: "docker://hydragenetics/common:0.3.0"
+
+trimmer_software: "fastp_pe"
+
+bwa_mem:
+  container: "docker://hydragenetics/bwa_mem:0.7.17"
+  amb: "reference/WASH7P.fna.amb"
+  ann: "reference/WASH7P.fna.ann"
+  bwt: "reference/WASH7P.fna.bwt"
+  pac: "reference/WASH7P.fna.pac"
+  sa: "reference/WASH7P.fna.sa"
+
+fastp_pe:
+  container: "docker://hydragenetics/fastp:0.20.1"
+
+picard_mark_duplicates:
+  container: "docker://hydragenetics/picard:2.25.0"
 
 haplotypecaller:
   container: "docker://hydragenetics/gatk4:4.1.9.0"
@@ -62,4 +79,4 @@ reference:
   dbsnp: "reference/dbsnp_138.sub.vcf.gz"
 
 generate_pgx_report:
-  report_template: "reference/report_template.txt"
+  analyzed_variants: "reference/analyzed_variants.txt"

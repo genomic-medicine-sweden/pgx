@@ -1,6 +1,3 @@
-# vim: syntax=python tabstop=4 expandtab
-# coding: utf-8
-
 __author__ = "Joel Ås, Massimiliano Volpe, Chelsea Ramsin & Lauri Mesilaakso"
 __copyright__ = "Copyright 2022, Joel Ås, Massimiliano Volpe, Chelsea Ramsin & Lauri Mesilaakso"
 __email__ = "massimiliano.volpe@liu.se, chelsea.ramsin@regionostergotland.se & lauri.mesilaakso@regionostergotland.se"
@@ -23,7 +20,27 @@ report: "report/workflow.rst"
 
 rule all:
     input:
-        unpack(compile_output_list),
+        unpack(compile_output_file_list),
+
+
+module prealignment:
+    snakefile:
+        github("hydra-genetics/prealignment", path="workflow/Snakefile", tag="v1.1.0")
+    config:
+        config
+
+
+use rule * from prealignment as prealignment_*
+
+
+module alignment:
+    snakefile:
+        github("hydra-genetics/alignment", path="workflow/Snakefile", tag="v0.4.0")
+    config:
+        config
+
+
+use rule * from alignment as alignment_*
 
 
 module snv_indels:
@@ -40,8 +57,8 @@ use rule bed_split from snv_indels as snv_indels_bed_split with:
 
 use rule haplotypecaller from snv_indels as snv_indels_haplotypecaller with:
     input:
-        bam="alignment/picard_mark_duplicates/{sample}_{type}.bam",
-        bai="alignment/picard_mark_duplicates/{sample}_{type}.bam.bai",
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         fasta=config["reference"]["fasta"],
         bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
 
