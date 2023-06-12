@@ -9,11 +9,11 @@ trimmer_software: "fastp_pe"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa_mem:0.7.17"
-  amb: "reference/WASH7P.fna.amb"
-  ann: "reference/WASH7P.fna.ann"
-  bwt: "reference/WASH7P.fna.bwt"
-  pac: "reference/WASH7P.fna.pac"
-  sa: "reference/WASH7P.fna.sa"
+  amb: "reference/hg19.chr6.fasta.amb"
+  ann: "reference/hg19.chr6.fasta.ann"
+  bwt: "reference/hg19.chr6.fasta.bwt"
+  pac: "reference/hg19.chr6.fasta.pac"
+  sa: "reference/hg19.chr6.fasta.sa"
 
 fastp_pe:
   container: "docker://hydragenetics/fastp:0.20.1"
