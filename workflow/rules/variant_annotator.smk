@@ -35,5 +35,4 @@ rule variant_annotator:
     message:
         "{rule}: annotate vcf on {input}"
     wrapper:
-        # "v1.14.1/bio/gatk/variantannotator"
-        "https://github.com/jonca79/snakemake-wrappers/raw/patch-1/bio/gatk/variantannotator"
+        "v1.32.1/bio/gatk/variantannotator"
