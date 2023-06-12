@@ -82,4 +82,4 @@ get_interaction_guidelines:
   interaction_guidelines: "data/guidelines/interaction_guidelines.csv"
 
 generate_pgx_report:
-  analyzed_variants: "data/haplotypes/analyzed_variants.txt"
+  report_template: "data/guidelines/report_template.txt"

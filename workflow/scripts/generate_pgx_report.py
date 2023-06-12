@@ -3,7 +3,6 @@
 """
 Created on Wed May  3 10:05:11 2023
 
-@author: chelsea
 """
 
 import pandas as pd
@@ -12,10 +11,10 @@ import numpy as np
 
 def risk_duplication(x):
     min_dup_var = min(abs(np.array([1 / 4, 1 / 3, 2 / 3, 3 / 4]) - x))
-    min_diploid = min(abs(np.array([0, 1 / 2, 2]) - x))
+    min_diploid = min(abs(np.array([0, 1 / 2, 1]) - x))
     if (min_dup_var > min_diploid):
-        return (False)
-    return (True)
+        return False
+    return True
 
 
 def get_haplotypes(id_, haplotype_definitions):
@@ -88,8 +87,7 @@ def get_recommendations(found_variants, haplotype_definitions,
                 'Variantfrekvens'].apply(lambda x: risk_duplication(x))
         faulty_haplotypes = pd.Series(
             np.where(detected_variants_present['Möjlig Duplikation'] == 'True',
-                     detected_variants_present['Möjlig Duplikation'],
-                     detected_variants_present['Haplotype']))
+                     detected_variants_present['Haplotype'], ''))
         faulty_haplotypes = faulty_haplotypes.map(
             lambda row: row.split("/")).explode().unique()
         order_columns = [
@@ -130,28 +128,33 @@ def get_recommendations(found_variants, haplotype_definitions,
             'Klinisk Rekommendation'].str.replace(r'<[^>]+>', '', regex=True)
     interaction_guidelines['Guideline'] = interaction_guidelines[
         'Guideline'].str.replace(r'<[^>]+>', '', regex=True)
+
+    dpyd_genotype = clinical_guidelines_present.loc[
+        clinical_guidelines_present['Gen'] == 'DPYD']['Haplotyp 1'].values[
+            0] + '/' + clinical_guidelines_present.loc[
+                clinical_guidelines_present['Gen'] ==
+                'DPYD']['Haplotyp 2'].values[0]
+    dpyd_recommendation = clinical_guidelines_present.loc[
+        clinical_guidelines_present['Gen'] ==
+        'DPYD']['Klinisk Rekommendation'].values[0]
+
+    tpmt_genotype = interaction_guidelines['haplotypes'].values[0]
+    tpmt_recommendation = interaction_guidelines['Guideline'].values[0]
+
+    with open(report_template, 'r') as reader:
+        tmp = reader.read()
+
+    tmp = tmp.replace('TPMT_genotype', tpmt_genotype)
+    tmp = tmp.replace('DPYD_recommendation', dpyd_recommendation)
+    tmp = tmp.replace('TPMT_recommendation', tpmt_recommendation)
+    tmp = tmp.replace('DPYD_genotype', dpyd_genotype)
+
     with open(report, 'w') as writer:
-        if (len(warning_idx) != 0):
+        if (warning_idx.size > 0) or (interaction_warning_idx.size > 0):
             writer.write(
-                "<b><u>En eller flera varianter som tillhör haplotyp har flaggats som osäker. \
-            \n Följ inte kliniska rekommendationer markerade med 'WARN'! </u></b>"
-            )
-        writer.write('DPYD' + '\nGenotype: ' + clinical_guidelines_present.loc[
-            clinical_guidelines_present['Gen'] ==
-            'DPYD']['Haplotyp 1'].values[0] + '/' +
-                     clinical_guidelines_present.loc[
-                         clinical_guidelines_present['Gen'] == 'DPYD']
-                     ['Haplotyp 2'].values[0] + '\n')
-        writer.write('Klinisk rekommendation:\n ' +
-                     clinical_guidelines_present.loc[
-                         clinical_guidelines_present['Gen'] == 'DPYD']
-                     ['Klinisk Rekommendation'].values[0] + '\n')
-        writer.write('\n' + 'TPMT-NUDT15\nGenotype: ' +
-                     interaction_guidelines['haplotypes'].values[0] +
-                     '\nKlinisk rekommendation:\n' +
-                     interaction_guidelines['Guideline'].values[0])
-        writer.write('\n\n\n\n\nAnalyserade varianter:\n' +
-                     get_analyzed_variants(analyzed_variants))
+                "En eller flera varianter som tillhör haplotyp har flaggats som osäker. \
+                Följ inte kliniska rekommendationer markerade med 'WARN'! \n")
+        writer.write(tmp)
 
 
 if __name__ == "__main__":
@@ -160,8 +163,8 @@ if __name__ == "__main__":
     clinical_guidelines = snakemake.input.clinical_guidelines
     interactions = snakemake.input.interactions
     haplotype_definitions = snakemake.params.haplotype_definitions
-    analyzed_variants = snakemake.params.analyzed_variants
+    report_template = snakemake.params.report_template
     report = snakemake.output.report
     get_recommendations(found_variants, haplotype_definitions,
                         clinical_guidelines, interactions, report,
-                        analyzed_variants)
+                        report_template)
