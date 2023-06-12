@@ -6,8 +6,10 @@ describe_workflow.rst
 describe_jupyter_notebook.txt
 pgx/
 data/
+prealignment/
 alignment/
 snv_indels/
+logs/
 tmp/
 *.bai
 *.tsv
