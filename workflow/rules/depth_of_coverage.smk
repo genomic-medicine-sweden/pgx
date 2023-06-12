@@ -11,7 +11,7 @@ rule depth_of_baits:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
     output:
-        gdf="pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf",
+        gdf=temp("pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf"),
     params:
         extra=config.get("depth_of_baits", {}).get("extra", ""),
     log:
@@ -43,7 +43,7 @@ rule depth_of_targets:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
         bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
     output:
-        "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.depth_at_missing.gdf",
+        temp("pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.depth_at_missing.gdf"),
     params:
         extra=config.get("depth_of_targets", {}).get("extra", ""),
     log:

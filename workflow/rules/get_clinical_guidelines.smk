@@ -8,7 +8,7 @@ rule get_clinical_guidelines:
     input:
         found_variants="pgx/detected_variants/{sample}_{type}.annotated.csv",
     output:
-        csv="pgx/get_clinical_guidelines/{sample}_{type}.output.csv",
+        csv=temp("pgx/get_clinical_guidelines/{sample}_{type}.output.csv"),
     params:
         haplotype_definitions=config.get("get_clinical_guidelines", {}).get("haplotype_definitions", ""),
         clinical_guidelines=config.get("get_clinical_guidelines", {}).get("clinical_guidelines", ""),

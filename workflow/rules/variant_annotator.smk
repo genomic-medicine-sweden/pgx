@@ -12,10 +12,10 @@ rule variant_annotator:
         ref=config.get("reference", {}).get("fasta", ""),
         db=config.get("reference", {}).get("dbsnp", ""),
     output:
-        vcf="pgx/variant_annotator/{sample}_{type}.annotated.vcf",
+        vcf=temp("pgx/variant_annotator/{sample}_{type}.annotated.vcf"),
     params:
-        extra="",  # optional "--resource-allele-concordance -A Coverage --expression db.END",
-        java_opts="",  # optional
+        extra=config.get("variant_annotator", {}).get("extra", ""),  # optional "--resource-allele-concordance -A Coverage --expression db.END",
+        java_opts=config.get("variant_annotator", {}).get("java_opts", ""),  # optional extra java options
     log:
         "pgx/variant_annotator/{sample}_{type}.annotated.vcf.log",
     benchmark:
