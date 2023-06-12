@@ -8,6 +8,7 @@ rule variant_annotator:
     input:
         vcf="pgx/variant_filtration/{sample}_{type}.filtered.vcf",
         aln="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
         db=config.get("reference", {}).get("dbsnp", ""),
     output:
@@ -34,4 +35,4 @@ rule variant_annotator:
     message:
         "{rule}: annotate vcf on {input}"
     wrapper:
-        "v1.14.1/bio/gatk/variantannotator"
+        "v1.32.1/bio/gatk/variantannotator"
