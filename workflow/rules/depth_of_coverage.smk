@@ -10,7 +10,7 @@ rule depth_of_baits:
         fasta=config.get("reference", {}).get("fasta", ""),
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
     output:
-        gdf="pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf",
+        gdf=temp("pgx/depth_of_coverage/depth_of_baits/{sample}_{type}.output.gdf"),
     params:
         extra=config.get("depth_of_baits", {}).get("extra", ""),
     log:
@@ -41,7 +41,7 @@ rule depth_of_targets:
         fasta=config.get("reference", {}).get("fasta", ""),
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
     output:
-        "pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.depth_at_missing.gdf",
+        temp("pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.depth_at_missing.gdf"),
     params:
         extra=config.get("depth_of_targets", {}).get("extra", ""),
     log:

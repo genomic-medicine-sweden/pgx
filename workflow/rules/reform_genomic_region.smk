@@ -8,7 +8,7 @@ rule get_padded_bed:
     input:
         target_bed=config.get("reference", {}).get("design_bed", ""),
     output:
-        interval="pgx/reform_genomic_region/get_padded_bed/padded_bait_interval.bed",
+        interval=temp("pgx/reform_genomic_region/get_padded_bed/padded_bait_interval.bed"),
     params:
         extra=config.get("get_padded_bed", {}).get("extra", ""),
         padding=config.get("get_padded_bed", {}).get("padding", "0"),
@@ -39,7 +39,7 @@ rule get_padded_baits:
     input:
         target_bed=config.get("reference", {}).get("design_bed", ""),
     output:
-        interval="pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list",
+        interval=temp("pgx/reform_genomic_region/get_padded_baits/padded_bait_interval.list"),
     params:
         extra=config.get("get_padded_baits", {}).get("extra", ""),
         padding=config.get("get_padded_baits", {}).get("padding", "0"),
@@ -71,7 +71,7 @@ rule sample_target_list:
         target_bed=config.get("reference", {}).get("design_rsid", ""),
         detected_variants="pgx/detected_variants/{sample}_{type}.annotated.csv",
     output:
-        interval="pgx/reform_genomic_region/sample_target_list/{sample}_{type}.target_interval.list",
+        interval=temp("pgx/reform_genomic_region/sample_target_list/{sample}_{type}.target_interval.list"),
     params:
         extra=config.get("sample_target_list", {}).get("extra", ""),
         padding=config.get("sample_target_list", {}).get("padding", "0"),

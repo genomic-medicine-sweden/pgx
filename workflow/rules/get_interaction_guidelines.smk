@@ -8,7 +8,7 @@ rule get_interaction_guidelines:
     input:
         diploids="pgx/get_clinical_guidelines/{sample}_{type}.output.csv",
     output:
-        csv="pgx/get_interaction_guidelines/{sample}_{type}.output.csv",
+        csv=temp("pgx/get_interaction_guidelines/{sample}_{type}.output.csv"),
     params:
         interacting_targets=config.get("get_interaction_guidelines", {}).get("interaction_guidelines"),
         extra=config.get("get_interaction_guidelines", {}).get("extra", ""),

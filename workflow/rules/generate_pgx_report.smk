@@ -11,7 +11,7 @@ rule generate_pgx_report:
         clinical_guidelines="pgx/get_clinical_guidelines/{sample}_{type}.output.csv",
         interactions="pgx/get_interaction_guidelines/{sample}_{type}.output.csv",
     output:
-        report="pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt",
+        report=temp("pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt"),
     params:
         haplotype_definitions=config.get("get_clinical_guidelines", {}).get("haplotype_definitions", ""),
         report_template=config.get("generate_pgx_report", {}).get("report_template", ""),

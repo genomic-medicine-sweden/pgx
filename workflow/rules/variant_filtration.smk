@@ -8,7 +8,7 @@ rule variant_filtration:
     input:
         vcf="snv_indels/haplotypecaller/{sample}_{type}.merged.vcf",
     output:
-        filtered_vcf="pgx/variant_filtration/{sample}_{type}.filtered.vcf",
+        filtered_vcf=temp("pgx/variant_filtration/{sample}_{type}.filtered.vcf"),
     params:
         read_ratio=config.get("variant_filtration", {}).get("read_ratio", ""),
         read_depth=config.get("variant_filtration", {}).get("read_depth", ""),

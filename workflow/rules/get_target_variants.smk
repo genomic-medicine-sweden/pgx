@@ -8,7 +8,7 @@ rule detected_variants:
     input:
         input_f="pgx/variant_annotator/{sample}_{type}.annotated.vcf",
     output:
-        output_f="pgx/detected_variants/{sample}_{type}.annotated.csv",
+        output_f=temp("pgx/detected_variants/{sample}_{type}.annotated.csv"),
     params:
         extra=config.get("detected_variants", {}).get("extra", ""),
         target_bed=config.get("reference", {}).get("design_rsid", ""),
@@ -39,7 +39,7 @@ rule append_id_to_gdf:
     input:
         input_f="pgx/depth_of_coverage/depth_of_targets/{sample}_{type}.depth_at_missing.gdf",
     output:
-        output_f="pgx/append_id_to_gdf/{sample}_{type}.depth_at_missing_annotated.gdf",
+        output_f=temp("pgx/append_id_to_gdf/{sample}_{type}.depth_at_missing_annotated.gdf"),
     params:
         extra=config.get("append_id_to_gdf", {}).get("extra", ""),
         target_bed=config.get("reference", {}).get("design_rsid", ""),
