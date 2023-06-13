@@ -42,12 +42,6 @@ def get_interaction_haplotypes(interaction_guidelines):
     return interaction_guidelines
 
 
-def get_analyzed_variants(analyzed_variants):
-    with open(analyzed_variants, 'r') as reader:
-        variants = ' '.join(reader.readlines())
-        return variants
-
-
 def get_recommendations(found_variants, haplotype_definitions,
                         clinical_guidelines_p, interaction_guidelines_p,
                         report, analyzed_variants):
@@ -78,15 +72,12 @@ def get_recommendations(found_variants, haplotype_definitions,
         columns = detected_variants.columns[2:].drop('PL')
         detected_variants_present = detected_variants[columns]
         detected_variants_present[
-            'Variantfrekvens'] = detected_variants_present.loc[:, 'Alt.reads'].div(
-                detected_variants_present.loc[:,
-                                              ['Alt.reads', 'Ref.reads']].sum(
-                                                  axis=1))
+            'Variantfrekvens'] = detected_variants_present['AF']
         detected_variants_present[
             "Möjlig Duplikation"] = detected_variants_present[
                 'Variantfrekvens'].apply(lambda x: risk_duplication(x))
         faulty_haplotypes = pd.Series(
-            np.where(detected_variants_present['Möjlig Duplikation'] == 'True',
+            np.where(~detected_variants_present['Möjlig Duplikation'],
                      detected_variants_present['Haplotype'], ''))
         faulty_haplotypes = faulty_haplotypes.map(
             lambda row: row.split("/")).explode().unique()
@@ -101,7 +92,6 @@ def get_recommendations(found_variants, haplotype_definitions,
         detected_variants_present = detected_variants_present[order_columns]
         detected_variants_present.columns = verbose_columns
 
-    clin_columns = ["gene", "Haplotype1", "Haplotype2", "Guideline"]
     clin_columns = [
         "gene", "Haplotype1", "Haplotype2", "Guideline", "Activity"
     ]
@@ -111,17 +101,22 @@ def get_recommendations(found_variants, haplotype_definitions,
     ]
     clinical_guidelines_present = clinical_guidelines[clin_columns]
     clinical_guidelines_present.columns = verbose_columns
-    warning_idx = np.array(
-        clinical_guidelines_present.isin(faulty_haplotypes)).nonzero()[0]
+
+    faulty_haplotype_recommendation = 'Ingen rekommendation ges pga obalans i heterozygositet'
+
+    clinical_guidelines_present.loc[
+        clinical_guidelines_present['Haplotyp 1'].isin(faulty_haplotypes),
+        'Klinisk Rekommendation'] = faulty_haplotype_recommendation
+    clinical_guidelines_present.loc[
+        clinical_guidelines_present['Haplotyp 2'].isin(faulty_haplotypes),
+        'Klinisk Rekommendation'] = faulty_haplotype_recommendation
 
     interaction_guidelines = get_interaction_haplotypes(interaction_guidelines)
 
-    if interaction_guidelines.shape[0] != 0:
-        interaction_warning_idx = np.array(
-            interaction_guidelines['haplotypes'].apply(
-                lambda x: x.split(',') in faulty_haplotypes)).nonzero()[0]
-    else:
-        interaction_warning_idx = 0
+    for haplotype in faulty_haplotypes:
+        interaction_guidelines.loc[
+            interaction_guidelines['haplotypes'].str.contains(haplotype),
+            'Guideline'] = faulty_haplotype_recommendation
 
     clinical_guidelines_present[
         'Klinisk Rekommendation'] = clinical_guidelines_present[
@@ -150,10 +145,6 @@ def get_recommendations(found_variants, haplotype_definitions,
     tmp = tmp.replace('DPYD_genotype', dpyd_genotype)
 
     with open(report, 'w') as writer:
-        if (warning_idx.size > 0) or (interaction_warning_idx.size > 0):
-            writer.write(
-                "En eller flera varianter som tillhör haplotyp har flaggats som osäker. \
-                Följ inte kliniska rekommendationer markerade med 'WARN'! \n")
         writer.write(tmp)
 
 
