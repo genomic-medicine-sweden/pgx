@@ -114,6 +114,8 @@ def get_recommendations(found_variants, haplotype_definitions,
     interaction_guidelines = get_interaction_haplotypes(interaction_guidelines)
 
     for haplotype in faulty_haplotypes:
+        if haplotype == "":
+            continue
         interaction_guidelines.loc[
             interaction_guidelines['haplotypes'].str.contains(haplotype),
             'Guideline'] = faulty_haplotype_recommendation
