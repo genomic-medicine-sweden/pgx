@@ -77,8 +77,8 @@ def get_recommendations(found_variants, haplotype_definitions,
             "Möjlig Duplikation"] = detected_variants_present[
                 'Variantfrekvens'].apply(lambda x: risk_duplication(x))
         faulty_haplotypes = pd.Series(
-            np.where(detected_variants_present['Möjlig Duplikation'] is True,
-                     detected_variants_present['Haplotype'], ''))
+            np.where(~detected_variants_present['Möjlig Duplikation'],
+                     '', detected_variants_present['Haplotype']))
         faulty_haplotypes = faulty_haplotypes.map(
             lambda row: row.split("/")).explode().unique()
         order_columns = [
