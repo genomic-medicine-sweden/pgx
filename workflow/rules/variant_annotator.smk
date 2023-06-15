@@ -13,7 +13,7 @@ rule variant_annotator:
     output:
         vcf=temp("pgx/variant_annotator/{sample}_{type}.annotated.vcf"),
     params:
-        known=config.get("reference", {}).get("dbsnp", ""),
+        dbsnp=config.get("reference", {}).get("dbsnp", ""),
         extra=config.get("variant_annotator", {}).get("extra", ""),  # optional "--resource-allele-concordance -A Coverage --expression db.END",
         java_opts=config.get("variant_annotator", {}).get("java_opts", ""),  # optional extra java options
     log:
@@ -34,5 +34,12 @@ rule variant_annotator:
         config.get("variant_annotator", {}).get("container", config["default_container"])
     message:
         "{rule}: annotate vcf on {input}"
-    wrapper:
-        "v1.32.1/bio/gatk/variantannotator"
+    shell:
+        "gatk VariantAnnotator"
+        " --variant {input.vcf}"
+        " --input {input.aln}"
+        " --reference {input.ref}"
+        " --dbsnp {params.dbsnp}"
+        " {params.extra}"
+        " --output {output.vcf}"
+        " >& {log}"
