@@ -25,12 +25,20 @@ properties:
   adapter:
     type: string
     description: one or more sequence, separated by ","
+  machine:
+    type: string
+    description: machine id
+  barcode:
+    type: string
+    description: flowcell barcode
 required:
   - adapter
-  - fastq1
-  - fastq2
   - flowcell
   - lane
   - platform
   - sample
   - type
+  - machine
+  - barcode
+  - fastq1
+  - fastq2

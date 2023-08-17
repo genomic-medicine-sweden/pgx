@@ -1,40 +1,72 @@
-# vim: syntax=python tabstop=4 expandtab
-# coding: utf-8
-
-__author__ = "Massimiliano Volpe & Lauri Mesilaakso"
-__copyright__ = "Copyright 2022, Massimiliano Volpe & Lauri Mesilaakso"
-__email__ = "massimiliano.volpe@liu.se & lauri.mesilaakso@regionostergotland.se"
+__author__ = "Joel Ås, Massimiliano Volpe, Chelsea Ramsin & Lauri Mesilaakso"
+__copyright__ = "Copyright 2022, Joel Ås, Massimiliano Volpe, Chelsea Ramsin & Lauri Mesilaakso"
+__email__ = "massimiliano.volpe@liu.se, chelsea.ramsin@regionostergotland.se & lauri.mesilaakso@regionostergotland.se"
 __license__ = "GPL-3"
 
+
 include: "rules/common.smk"
+include: "rules/generate_pgx_report.smk"
+include: "rules/reform_genomic_region.smk"
+include: "rules/depth_of_coverage.smk"
+include: "rules/get_interaction_guidelines.smk"
+include: "rules/get_clinical_guidelines.smk"
+include: "rules/get_target_variants.smk"
+include: "rules/variant_annotator.smk"
+include: "rules/variant_filtration.smk"
+
 
 report: "report/workflow.rst"
 
-rule dummy:
-    output:
-        "pgx/dummy/{sample}_{type}.dummy.txt"
-    params:
-        extra=config.get("dummy", {}).get("extra", ""),
-    log:
-        "pgx/dummy/{sample}_{type}.output.log"
-    benchmark:
-       repeat("module/dummy/{sample}_{type}.output.benchmark.tsv", config.get("dummy", {}).get("benchmark_repeats", 1),)
-    threads: # optional
-       threads=config.get("dummy", {}).get("threads", config["default_resources"]["threads"]),
-    resources:
-        threads=config.get("dummy", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("dummy", {}).get("time", config["default_resources"]["time"]),
-    container:
-       config.get("dummy", {}).get("container", config["default_container"])
-    conda:
-       "../envs/dummy.yaml"
-    message:
-       "{rule}: Do stuff on module/{rule}/{wildcards.sample}_{wildcards.type}.input"
-    shell:
-        """
-        touch {output}
-        """
 
 rule all:
     input:
-        unpack(compile_output_list),
+        unpack(compile_output_file_list),
+
+
+module prealignment:
+    snakefile:
+        github("hydra-genetics/prealignment", path="workflow/Snakefile", tag="v1.1.0")
+    config:
+        config
+
+
+use rule * from prealignment as prealignment_*
+
+
+module alignment:
+    snakefile:
+        github("hydra-genetics/alignment", path="workflow/Snakefile", tag="v0.4.0")
+    config:
+        config
+
+
+use rule * from alignment as alignment_*
+
+
+module snv_indels:
+    snakefile:
+        github("hydra-genetics/snv_indels", path="workflow/Snakefile", tag="v0.3.0")
+    config:
+        config
+
+
+use rule bed_split from snv_indels as snv_indels_bed_split with:
+    input:
+        bed="pgx/reform_genomic_region/get_padded_bed/padded_bait_interval.bed",
+
+
+use rule haplotypecaller from snv_indels as snv_indels_haplotypecaller with:
+    input:
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        fasta=config["reference"]["fasta"],
+        bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
+
+
+use rule bgzip from snv_indels as snv_indels_bgzip
+
+
+use rule tabix from snv_indels as snv_indels_tabix
+
+
+use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat

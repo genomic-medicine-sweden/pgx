@@ -1,0 +1,16 @@
+DPYD
+Genotype: DPYD_genotype
+Klinisk Rekommendation:
+DPYD_recommendation
+
+TPMT-NUDT15
+Genotype: TPMT_genotype
+Klinisk Rekommendation:
+TPMT_recommendation
+
+Analyserade varianter:
+DPYD= rs3918290: c.1905+1G>A, splice defect; rs72549303: c.1898delC, p.P633Qfs; rs72549309: c.299delTCAT; rs1801266: c.703C>T, p.R235W; rs1801268: c.2983G>T, p.V995F; rs78060119: c.1156G>T, p.E386X; rs55886062: c.1679T>G, p.I560S; rs75017182: c.1129-5923C>G; rs67376798: c.2846A>T, p.D949V; rs115232898: c.557A>G, p.Y186C. Dessa varianter motsvarar allelerna *2A, *3, *7, *8, *10, *12, *13, HapB3.
+
+TPMT= rs1800462: c.238G>C, p.A80P; rs1142345: c.719A>G, p.Y240C; rs1800460: c.460G>A, p.A154T; rs1800584: c.626-1G>A. Dessa varianter motsvarar allelerna *2, *3A, *3B, *3C, *4.
+
+NUDT15= rs147390019: c.7974G>A, p.R139H; rs186364861: c.52G>A, p.V18I; rs116855232: c. 7973C>T, p.R139C; rs746071566: c.50delGAGTCG, p.del17_18GV / c.55_56insGAGTCG, p.V18_V19insGV. Dessa varianter motsvarar allelerna *2, *3, *4, *5, *6, *9.

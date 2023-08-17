@@ -1,6 +1,15 @@
 .eggs
 __pycache__
-.snakemake
+.snakemake/
+.tests/integration/.snakemake/
 describe_workflow.rst
 describe_jupyter_notebook.txt
-pgx
+pgx/
+data/
+prealignment/
+alignment/
+snv_indels/
+logs/
+tmp/
+*.bai
+*.tsv

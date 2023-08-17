@@ -2,13 +2,13 @@
 
 Pharmacogenomics pipeline implemented in hydra
 
-![Lint](https://github.com/hydra-genetics/pgx/actions/workflows/lint.yaml/badge.svg?branch=develop)
-![Snakefmt](https://github.com/hydra-genetics/pgx/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
+![Lint](https://github.com/genomic-medicine-sweden/pgx/actions/workflows/lint.yaml/badge.svg?branch=develop)
+![Snakefmt](https://github.com/genomic-medicine-sweden/pgx/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
 
-![pycodestyle](https://github.com/hydra-genetics/pgx/actions/workflows/pycodestyl.yaml/badge.svg?branch=develop)
-![pytest](https://github.com/hydra-genetics/pgx/actions/workflows/pytest.yaml/badge.svg?branch=develop)
+![pycodestyle](https://github.com/genomic-medicine-sweden/pgx/actions/workflows/pycodestyl.yaml/badge.svg?branch=develop)
+![pytest](https://github.com/genomic-medicine-sweden/pgx/actions/workflows/pytest.yaml/badge.svg?branch=develop)
 
-![integration test](https://github.com/hydra-genetics/pgx/actions/workflows/integration1.yaml/badge.svg?branch=develop)
+![integration test](https://github.com/genomic-medicine-sweden/pgx/actions/workflows/integration1.yaml/badge.svg?branch=develop)
 
 [![License: GPL-3](https://img.shields.io/badge/License-GPL3-yellow.svg)](https://opensource.org/licenses/gpl-3.0.html)
 
@@ -32,7 +32,9 @@ corresponding forward and reverse reads. Also indicate the sample id, run id and
 
 ### Reference data
 
-1. You need a ...
+1. You need a BAM file marked for duplicates
+2. Reference genome
+3. dbSNP database in VCF file format
 
 ## :white_check_mark: Testing
 
@@ -41,6 +43,12 @@ The workflow repository contains a small test dataset `.tests/integration` which
 ```bash
 cd .tests/integration
 snakemake -s ../../Snakefile -j1 --use-singularity
+
+# alternative command:
+snakemake -s ../../workflow/Snakefile -j1 --use-singularity --configfile config/config.yaml
+
+# generate DAG:
+snakemake --cores 1 -s workflow/Snakefile --configfile config/config.yaml --rulegraph | dot -Tsvg > ./images/dag.svg
 ```
 
 ## :rocket: Usage
@@ -54,4 +62,4 @@ snakemake -s /path/to/Snakefile --profile my-awesome-profile
 
 ## :judge: Rule Graph
 
-![rule_graph](https://raw.githubusercontent.com/path.../rulegraph.svg)
+![rule_graph](https://github.com/genomic-medicine-sweden/pgx/blob/develop/images/dag.svg)

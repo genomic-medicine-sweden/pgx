@@ -1,2 +1,2 @@
-sample	type	platform	machine	flowcell	lane	barcode	fastq1	fastq2	adapter
-NA12878
+sample	type	platform	barcode	machine	flowcell	lane	fastq1	fastq2	adapter
+NA12878	T	Illumina	AGGGCGATAA+TTGTGTTCCT	@VH00694	AAAM3CNM5	L001	alignment/bwa_mem/NA12878_T.bam	alignment/bwa_mem/NA12878_T.bam	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA,AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT

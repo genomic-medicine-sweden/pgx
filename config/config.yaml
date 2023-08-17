@@ -1,7 +1,85 @@
----
+resources: "config/resources.yaml"
+samples: "samples.tsv"
+units: "units.tsv"
+output: "config/output_files.yaml"
 
- resources: "resources.yaml"
- samples: "samples.tsv"
- units: "units.tsv"
+default_container: "docker://hydragenetics/common:0.3.0"
 
- default_container: "docker://hydragenetics/common:0.0.1"
+reference:
+  design_bed: "data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed"
+  design_rsid: "data/genomic_regions/target_rsid.bed"
+  fasta: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.fasta"
+  fai: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.fai"
+  dbsnp: "/data/ref_genomes/hg19/variation/dbsnp_138.vcf.gz"
+
+trimmer_software: "fastp_pe"
+
+bwa_mem:
+  container: "docker://hydragenetics/bwa_mem:0.7.17"
+  amb: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.amb"
+  ann: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.ann"
+  bwt: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.bwt"
+  pac: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.pac"
+  sa: "/data/ref_genomes/hg19/bwa/BWA_0.7.10_refseq/hg19.with.mt.sa"
+
+bwa_mem_merge:
+  extra: "-c -p"
+
+fastp_pe:
+  container: "docker://hydragenetics/fastp:0.20.1"
+
+picard_mark_duplicates:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+samtools_merge_bam:
+  extra: "-c -p"
+
+get_padded_bed:
+  padding: 100
+
+haplotypecaller:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  extra: "--dbsnp /data/ref_genomes/hg19/variation/dbsnp_138.vcf.gz --standard-min-confidence-threshold-for-calling 1.0"
+
+snv_indels_haplotypecaller:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+variant_filtration:
+  read_ratio: 0.2
+  read_depth: 100
+
+variant_annotator:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+
+detected_variants:
+  file_type: "VCF"
+
+sample_target_list:
+  padding: 0
+
+get_padded_baits:
+  padding: 100
+  file_format: "list"
+
+depth_of_baits:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  extra: "--output-format TABLE"
+
+depth_of_targets:
+  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  extra: "--output-format TABLE"
+
+append_id_to_gdf:
+  file_type: "GDF"
+
+get_clinical_guidelines:
+  haplotype_definitions: "data/haplotypes/haplotype_definitions.csv"
+  haplotype_activity: "data/guidelines/haplotype_activity_score.csv"
+  clinical_guidelines: "data/guidelines/clinical_guidelines.csv"
+  hidden_haplotypes: "data/haplotypes/hidden_haplotypes.csv"
+
+get_interaction_guidelines:
+  interaction_guidelines: "data/guidelines/interaction_guidelines.csv"
+
+generate_pgx_report:
+  report_template: "data/guidelines/report_template.txt"
