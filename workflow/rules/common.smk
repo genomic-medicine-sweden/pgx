@@ -75,6 +75,7 @@ wildcard_constraints:
 def compile_output_file_list(wildcards):
     outdir = pathlib.Path(output_spec.get("directory", "./"))
     output_files = []
+    types = set([unit.type for unit in units.itertuples()])
 
     for f in output_spec["files"]:
         # Please remember to add any additional values down below
@@ -84,6 +85,7 @@ def compile_output_file_list(wildcards):
                 f["output"].format(sample=sample, type=unit_type)
                 for sample in get_samples(samples)
                 for unit_type in get_unit_types(units, sample)
+                if unit_type in set(f["types"]).intersection(types)
             ]
         )
         for op in outputpaths:
