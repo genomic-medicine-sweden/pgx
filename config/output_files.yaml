@@ -26,3 +26,17 @@ files:
     types:
       - T
       - N
+
+  - name: "_copy_pgx_depth_excel"
+    input: "pgx/generate_depth_report/{sample}_{type}_pgx_depth.xlsx"
+    output: "results/dna/pgx/{sample}_{type}.pgx_depth_table.xlsx"
+    types:
+      - T
+      - N
+
+  - name: "_copy_pgx_depth_html"
+    input: "pgx/generate_depth_report/{sample}_{type}_pgx_depth.html"
+    output: "results/dna/pgx/{sample}_{type}.pgx_depth_table.html"
+    types:
+      - T
+      - N

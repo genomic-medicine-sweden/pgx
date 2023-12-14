@@ -80,3 +80,6 @@ reference:
 
 generate_pgx_report:
   report_template: "reference/report_template.txt"
+
+generate_depth_report:
+  html_template: "reference/html_template.html"
