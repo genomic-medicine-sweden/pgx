@@ -20,7 +20,7 @@ def highlight_greaterthan(s, threshold, column):
 
 def highlight_risk_genotype(s, column):
     is_max = pd.Series(data=False, index=s.index)
-    is_max[column] = s[column].str.contains('-[^1]') is not True
+    is_max[column] = ~s[column].str.contains('-[^1]')
     return [
         'background-color: red ; font-weight: bold ; color: white'
         if not is_max.any() else '' for v in is_max
@@ -73,18 +73,17 @@ def create_styled_clinical_recommendations(rekommendation):
             rec = split_recommendation[2]
             recommendation_restructured.append([gene, genotype, rec])
 
-    pandas_recc = pd.DataFrame(
-        recommendation_restructured,
-        columns=['Gen', 'Genotyp', 'Klinisk rekommendation'])
+    rec_df = pd.DataFrame(recommendation_restructured,
+                          columns=['Gen', 'Genotyp', 'Klinisk rekommendation'])
 
-    if pandas_recc['Genotyp'].str.contains('-[^1]').any() is not True:
+    if ~rec_df['Genotyp'].str.contains('-[^1]').any():
         warning_rec = ""
     else:
         warning_rec = "!"
 
-    styled_recc = pandas_recc.style.apply(highlight_risk_genotype,
-                                          column=['Genotyp'],
-                                          axis=1).hide(axis="index")
+    styled_recc = rec_df.style.apply(highlight_risk_genotype,
+                                     column=['Genotyp'],
+                                     axis=1).hide(axis="index")
 
     return styled_recc, warning_rec
 

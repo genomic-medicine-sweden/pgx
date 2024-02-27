@@ -117,7 +117,8 @@ def get_recommendations(found_variants, haplotype_definitions,
     with open(report, 'w') as writer:
         for gene in genes:
             if gene not in interaction_guidelines.values:
-                rec_per_gene = clinical_guidelines_present.loc[clinical_guidelines_present['Gen'] == gene]
+                rec_per_gene = clinical_guidelines_present.loc[
+                    clinical_guidelines_present['Gen'] == gene]
                 haplotype_1 = rec_per_gene['Haplotyp 1'].values[0]
                 haplotype_2 = rec_per_gene['Haplotyp 2'].values[0]
                 genotype = f"{haplotype_1}/{haplotype_2}"
@@ -130,7 +131,8 @@ def get_recommendations(found_variants, haplotype_definitions,
 
         writer.write(f"\n\n{gene1_interaction}-{gene2_interaction}")
         writer.write(f"\nGenotype: {genotype_interaction}")
-        writer.write(f"\nKlinisk rekommendation: {recommendation_interaction}\n")
+        writer.write(
+            f"\nKlinisk rekommendation: {recommendation_interaction}\n")
         writer.write(f"\n{analysed}")
 
 
