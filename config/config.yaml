@@ -82,7 +82,7 @@ get_interaction_guidelines:
   interaction_guidelines: "data/guidelines/interaction_guidelines.csv"
 
 get_clinical_recommendations:
-  analysed_variants: "data/templates/analysed_variants.txt"
+  analysed_variants: "config/templates/analysed_variants.txt"
 
 generate_pgx_report:
-  html_template: "data/templates/html_template.html"
+  html_template: "config/templates/html_template.html"
