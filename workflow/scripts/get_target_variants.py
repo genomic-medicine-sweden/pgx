@@ -40,7 +40,6 @@ class GDF:
         idx_swap = targets.START > targets.END
         targets.loc[idx_swap, "START"] = targets.loc[idx_swap, "END"]
         targets.loc[idx_swap, "END"] = targets.loc[idx_swap, "save"]
-        targets["CHROM"] = targets.CHROM.apply(lambda x: f"chr{x}")
         self.data["ID"] = self.data.apply(lambda x: _annotate(x, targets),
                                           axis=1)
 

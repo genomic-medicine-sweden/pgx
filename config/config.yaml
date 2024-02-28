@@ -82,4 +82,7 @@ get_interaction_guidelines:
   interaction_guidelines: "data/guidelines/interaction_guidelines.csv"
 
 generate_pgx_report:
-  report_template: "data/guidelines/report_template.txt"
+  report_template: "data/templates/report_template.txt"
+
+generate_depth_report:
+  html_template: "data/templates/html_template.html"

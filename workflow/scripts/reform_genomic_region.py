@@ -21,14 +21,11 @@ def reform(target_bed, output_f, detected_variants, padding, file_format):
                 end, start = start, end
             start -= padding
             end += padding
-            if not str(chrom).startswith('chr'):
-                chrom = f"chr{chrom}"
+
             if bed:
-                # f.write(f"chr{chrom}\t{start}\t{end}\t{id}\n")
                 f.write(f"{chrom}\t{start}\t{end}\t{id}\n")
 
             else:
-                # f.write(f"chr{chrom}:{start}-{end}\n")
                 f.write(f"{chrom}:{start}-{end}\n")
 
 
