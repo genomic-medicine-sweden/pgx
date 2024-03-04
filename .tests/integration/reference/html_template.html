@@ -4,14 +4,46 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    
-    
     <title>Farmakogenomisk analys av {{sample}}</title>
 
+<style type="text/css">
 
-</script>
-        <style type="text/css">
+.collapsible {
+  background-color: #fcfcfc;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+}
 
+.active, .collapsible:hover {
+  background-color: #edf0f2;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: #179bd7;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+</style>
+
+
+<style type="text/css">
 .pagedtable-index-current {
 font-weight: bold;
 }
@@ -19,17 +51,17 @@ font-weight: bold;
 color: #BBB;
 }
 
-h1,h2,h3,h4,h5,h6,legend{
+h1,h2,h3,h4,h5,h6,legend, .collapsible{
 font-family:"Roboto Slab","ff-tisa-web-pro","Georgia",Arial,sans-serif;
 font-weight:700;
 color: #9F2042;
 }
-h1{
+h1, .collapsible{
 font-size:2rem;
 margin-top: 1em;
 margin-bottom: 1.2em;
 }
-h1.title {
+h1.title, .collapsible {
 margin-top: 1em;
 }
 h1.title,
@@ -481,7 +513,7 @@ text-decoration: none;
 </style>
 
 </style>
-        <style type="text/css">h1, h2, h3, h4, h5, h6, legend {
+        <style type="text/css">h1, h2, h3, h4, h5, h6, legend, .collapsible {
 color: #179bd7;
 }
 #sidebar h2 {
@@ -593,11 +625,13 @@ color: #faa21a;
   <div id="toc">
     <ul>
     <li><a href="#provdetaljer">Provdetaljer</a></li>
-    <li><a href="#läsdjup-vid-vildtyp-kliniska-targets">Läsdjup vid
-      vildtyp kliniska targets</a></li>
-      <li><a href="#läsdjup-vid-targets">Läsdjup vid targets</a></li>
+    <li><a href="#Kliniska-rekommendationer">Kliniska rekommendationer</a></li>
+    <li><a href="#Detekterade-varianter">Detekterade varianter</a></li>
+    <li><a href="#läsdjup-vid-vildtyp-kliniska-targets">Läsdjup för kliniska positioner</a></li>
+      <li><a href="#Analyserade-varianter">Analyserde varianter</a></li>
+      <li><a href="#Haplotype">Haplotyper</a></li>
       </ul>
-    </div>
+    </div> 
   </div>
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
@@ -639,22 +673,76 @@ Referensgenomens sökväg
 
 </tbody>
 </table>
+
+<div id="Kliniska-rekommendationer" class="section level1">
+<button class="collapsible">Kliniska rekommendationer <span style="color:#f00; font-size:3rem"> {{ warning_rec }}</span></button>
+<div class="content">
+{{ rekommendation }}
+</div>
+</div>
+<button class="collapsible">Detekterade varianter <span style="color:#f00; font-size:3rem"> {{ warning_rec }}</span></button>
+<div class="content">
+<div id="Detekterade-varianter" class="section level1" style="overflow:auto;">
+<tbody>
+<tr>
+<td style="text-align:left;width: 15em;border-right:1px solid; overflow-x:auto;">
+{{ detected_variants }}
+</td> 
+</tr>
+</tbody>
+</div>
 </div>
 
 <div id="läsdjup-vid-vildtyp-kliniska-targets" class="section level1">
-<h1>Läsdjup för kliniska positioner</h1>
-
+<button class="collapsible">Läsdjup för kliniska positioner <span style="color:#f00; font-size:3rem"> {{ warning_depth }}</span> </button>
+<div class="content">
 {{ table }}
 </td> 
 </tr>
 </tbody>
-
 </table>
 </div>
-<div id="läsdjup-vid-targets" class="section level1">
-<h1>Läsdjup vid targets</h1>
-      
+</div>
 
-  
+<div id="Analyserade-varianter" class="section level1">
+<button class="collapsible">Analyserade varianter</button>
+<div class="content">
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align:left;width: 15em;border-right:1px solid;">
+{{ analysed_variants }}
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="Haplotype" class="section level1">
+<button class="collapsible">Haplotyper</button>
+<div class="content">
+{{ haplotype_definitions }}
+
+</div>
+
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
 </body>
 </html>

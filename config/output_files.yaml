@@ -21,22 +21,22 @@ files:
       - N
 
   - name: "_copy_pgx_report"
-    input: "pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt"
-    output: "results/dna/pgx/{sample}_{type}.pgx_report.txt"
+    input: "pgx/get_clinical_recommendations/{sample}_{type}_pgx_clinical_recommendations.txt"
+    output: "results/dna/pgx/{sample}_{type}.pgx_clinical_recommendations.txt"
     types:
       - T
       - N
 
   - name: "_copy_pgx_depth_excel"
-    input: "pgx/generate_depth_report/{sample}_{type}_pgx_depth.xlsx"
+    input: "pgx/generate_pgx_report/{sample}_{type}_pgx_depth_table.xlsx"
     output: "results/dna/pgx/{sample}_{type}.pgx_depth_table.xlsx"
     types:
       - T
       - N
 
   - name: "_copy_pgx_depth_html"
-    input: "pgx/generate_depth_report/{sample}_{type}_pgx_depth.html"
-    output: "results/dna/pgx/{sample}_{type}.pgx_depth_table.html"
+    input: "pgx/generate_pgx_report/{sample}_{type}_pgx_report.html"
+    output: "results/dna/pgx/{sample}_{type}.pgx_report.html"
     types:
       - T
       - N
