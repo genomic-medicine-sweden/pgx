@@ -40,9 +40,11 @@ class GetInteractions:
                 activity2 = int(self.variants_df.iloc[[j]].Genotype_activity)
 
                 all_haplotypes = ",".join([
-                    self.variants_df.iloc[[i]]["Haplotype1"].values.flat[0],
+                    self.variants_df.iloc[[i]]["Haplotype1"].values.flat[0] +
+                    '/' +
                     self.variants_df.iloc[[i]]["Haplotype2"].values.flat[0],
-                    self.variants_df.iloc[[j]]["Haplotype1"].values.flat[0],
+                    self.variants_df.iloc[[j]]["Haplotype1"].values.flat[0] +
+                    '/' +
                     self.variants_df.iloc[[j]]["Haplotype2"].values.flat[0]
                 ])
 
