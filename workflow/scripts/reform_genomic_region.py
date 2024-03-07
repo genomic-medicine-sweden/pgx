@@ -26,7 +26,7 @@ def reform(target_bed, output_f, detected_variants, padding, file_format):
                 f.write(f"{chrom}\t{start}\t{end}\t{id}\n")
 
             else:
-                f.write(f"{chrom}:{start}-{end}\n")
+                f.write(f"{chrom}:{start}-{end}\n") # noqa
 
 
 def main():
