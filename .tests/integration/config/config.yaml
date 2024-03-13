@@ -78,5 +78,8 @@ reference:
   fai: "reference/hg19.chr6.fasta.fai"
   dbsnp: "reference/dbsnp_138.sub.vcf.gz"
 
+get_clinical_recommendations:
+  analysed_variants: "reference/analysed_variants.txt"
+
 generate_pgx_report:
-  report_template: "reference/report_template.txt"
+  html_template: "reference/html_template.html"

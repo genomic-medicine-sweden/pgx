@@ -6,6 +6,7 @@ __license__ = "GPL-3"
 
 include: "rules/common.smk"
 include: "rules/generate_pgx_report.smk"
+include: "rules/get_clinical_recommendations.smk"
 include: "rules/reform_genomic_region.smk"
 include: "rules/depth_of_coverage.smk"
 include: "rules/get_interaction_guidelines.smk"

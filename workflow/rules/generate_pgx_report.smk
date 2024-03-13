@@ -1,25 +1,28 @@
 __author__ = "Chelsea Ramsin"
 __copyright__ = "Copyright 2023, Chelsea Ramsin"
-__email__ = "Chelsea.Ramsin@regionostergotland.se"
+__email__ = "chelsea.ramsin@regionostergotland.se"
 __license__ = "GPL-3"
 
 
 rule generate_pgx_report:
     input:
-        found_variants="pgx/detected_variants/{sample}_{type}.annotated.csv",
         missed_variants="pgx/append_id_to_gdf/{sample}_{type}.depth_at_missing_annotated.gdf",
-        clinical_guidelines="pgx/get_clinical_guidelines/{sample}_{type}.output.csv",
-        interactions="pgx/get_interaction_guidelines/{sample}_{type}.output.csv",
+        recommendations="pgx/get_clinical_recommendations/{sample}_{type}_pgx_clinical_recommendations.txt",
+        detected_variants="pgx/detected_variants/{sample}_{type}.annotated.csv",
     output:
-        report=temp("pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt"),
+        html_report=temp("pgx/generate_pgx_report/{sample}_{type}_pgx_report.html"),
+        depth_table=temp("pgx/generate_pgx_report/{sample}_{type}_pgx_depth_table.xlsx"),
     params:
         haplotype_definitions=config.get("get_clinical_guidelines", {}).get("haplotype_definitions", ""),
-        report_template=config.get("generate_pgx_report", {}).get("report_template", ""),
+        html_template=config.get("generate_pgx_report", {}).get("html_template", ""),
+        dbsnp=config.get("reference", {}).get("dbsnp", ""),
+        ref=config.get("reference", {}).get("fasta", ""),
+        read_depth=config.get("variant_filtration", {}).get("read_depth", ""),
     log:
-        "pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt.output.log",
+        "pgx/generate_pgx_report/{sample}_{type}.output.log",
     benchmark:
         repeat(
-            "pgx/generate_pgx_report/{sample}_{type}_pgx_report.txt.benchmark.tsv",
+            "pgx/generate_pgx_report/{sample}_{type}.output.benchmark.tsv",
             config.get("generate_pgx_report", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("generate_pgx_report", {}).get("threads", config["default_resources"]["threads"])
@@ -32,6 +35,6 @@ rule generate_pgx_report:
     container:
         config.get("generate_pgx_report", {}).get("container", config["default_container"])
     message:
-        "{rule}: Generates markdown report per sample pgx/{rule}/{wildcards.sample}_{wildcards.type}.input"
+        "{rule}: Generate pgx report on pgx/{rule}/{wildcards.sample}_{wildcards.type}.input"
     script:
         "../scripts/generate_pgx_report.py"
