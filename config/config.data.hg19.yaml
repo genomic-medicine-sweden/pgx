@@ -1,0 +1,12 @@
+PROJECT_REF_DATA: ""
+
+reference:
+  fasta: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta"
+  fai: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fai"
+
+bwa_mem:
+  amb: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.amb"
+  ann: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.ann"
+  bwt: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.bwt"
+  pac: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.pac"
+  sa: "{{PROJECT_REF_DATA}}/ref_data/hg19/hg19.with.mt.fasta.sa"

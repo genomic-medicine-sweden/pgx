@@ -36,6 +36,17 @@ corresponding forward and reverse reads. Also indicate the sample id, run id and
 2. Reference genome
 3. dbSNP database in VCF file format
 
+`data/dbsnp/dbsnp_138.pgx_targets.vcf.gz` is dbSNP 138 (hg19) limited to the PGX target regions in
+`data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed`, padded by 200 bp:
+
+```bash
+awk 'BEGIN{OFS="\t"} !/^#/ {s=$2-200; if (s<0) s=0; print $1, s, $3+200}' $BED > pgx_targets_pad200.bed
+bcftools view -T pgx_targets_pad200.bed -Oz -o dbsnp_138.pgx_targets.vcf.gz dbsnp_138.vcf.gz
+tabix -p vcf dbsnp_138.pgx_targets.vcf.gz
+```
+
+The padding covers the `get_padded_bed` padding (100 bp) used for variant calling.
+
 ## :white_check_mark: Testing
 
 The workflow repository contains a small test dataset `.tests/integration` which can be run like so:
@@ -58,6 +69,24 @@ HPC clusters, it is recommended to use a cluster profile and run something like:
 
 ```bash
 snakemake -s /path/to/Snakefile --profile my-awesome-profile
+```
+
+### Without internet access
+
+The hydra-genetics module versions (git tags) are set under `modules` in `config/config.yaml`. The modules are fetched from GitHub by default. To use local clones instead, set
+`hydra_local_path` in the config to a folder with clones of `prealignment`, `alignment` and `snv_indels`.
+The module versions are read from the local clones by tag, so the clones must contain the tags set under
+`modules`.
+
+```yaml
+hydra_local_path: "/path/to/hydra-genetics"  # with /path/to/hydra-genetics/prealignment etc.
+```
+
+The reference paths in `config/config.yaml` are absolute. To use another location, add
+`config/config.data.hg19.yaml` and set `PROJECT_REF_DATA` to a folder with `ref_data/hg19/hg19.with.mt.*`:
+
+```bash
+snakemake --configfiles config/config.yaml config/config.data.hg19.yaml --config PROJECT_REF_DATA=/path/to/references ...
 ```
 
 ## :judge: Rule Graph
