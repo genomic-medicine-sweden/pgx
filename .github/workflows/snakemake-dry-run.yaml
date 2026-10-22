@@ -20,21 +20,11 @@ jobs:
     name: Run snakemake dry run
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python 3.8
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: 3.8
-      - name: Setup Mambaforge
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-            miniforge-variant: Mambaforge
-            miniforge-version: latest
-            activate-environment: my-env
-            use-mamba: true
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
       - name: Install requirements.txt
         run: |
           pip install -r requirements.txt
@@ -44,5 +34,13 @@ jobs:
       - name: snakemake dry run
         working-directory: .tests/integration
         run: |
-          mamba install -c conda-forge -c bioconda snakemake singularity
           snakemake -n -s ../../workflow/Snakefile  --configfile config/config.yaml
+      - name: Clone hydra-genetics modules
+        run: |
+          for module in prealignment alignment snv_indels; do
+            git clone https://github.com/hydra-genetics/${module}.git ${{ runner.temp }}/hydra-genetics/${module}
+          done
+      - name: snakemake dry run with local hydra-genetics modules
+        working-directory: .tests/integration
+        run: |
+          snakemake -n -s ../../workflow/Snakefile  --configfile config/config.yaml --config hydra_local_path=${{ runner.temp }}/hydra-genetics
