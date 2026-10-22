@@ -15,6 +15,7 @@ from hydra_genetics.utils.units import *
 from hydra_genetics import min_version as hydra_min_version
 from hydra_genetics.utils.misc import extract_chr
 from hydra_genetics.utils.misc import get_module_snakefile
+from hydra_genetics.utils.misc import replace_dict_variables
 
 hydra_min_version("4.1.1")
 
@@ -24,6 +25,8 @@ min_version("6.8.0")
 if not workflow.overwrite_configfiles:
     sys.exit("At least one config file must be passed using --configfile/--configfiles, by command line or a profile!")
 
+
+config = replace_dict_variables(config)
 
 validate(config, schema="../schemas/config.schema.yaml")
 config = load_resources(config, config["resources"])

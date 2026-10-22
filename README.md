@@ -82,6 +82,13 @@ The module versions are read from the local clones by tag, so the clones must co
 hydra_local_path: "/path/to/hydra-genetics"  # with /path/to/hydra-genetics/prealignment etc.
 ```
 
+The reference paths in `config/config.yaml` are absolute. To use another location, add
+`config/config.data.hg19.yaml` and set `PROJECT_REF_DATA` to a folder with `ref_data/hg19/hg19.with.mt.*`:
+
+```bash
+snakemake --configfiles config/config.yaml config/config.data.hg19.yaml --config PROJECT_REF_DATA=/path/to/references ...
+```
+
 ## :judge: Rule Graph
 
 ![rule_graph](https://github.com/genomic-medicine-sweden/pgx/blob/develop/images/dag.svg)
