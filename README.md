@@ -36,6 +36,17 @@ corresponding forward and reverse reads. Also indicate the sample id, run id and
 2. Reference genome
 3. dbSNP database in VCF file format
 
+`data/dbsnp/dbsnp_138.pgx_targets.vcf.gz` is dbSNP 138 (hg19) limited to the PGX target regions in
+`data/genomic_regions/exons_variants_pharmacogenomics_18_06_2019_ex_cyp2d6.bed`, padded by 200 bp:
+
+```bash
+awk 'BEGIN{OFS="\t"} !/^#/ {s=$2-200; if (s<0) s=0; print $1, s, $3+200}' $BED > pgx_targets_pad200.bed
+bcftools view -T pgx_targets_pad200.bed -Oz -o dbsnp_138.pgx_targets.vcf.gz dbsnp_138.vcf.gz
+tabix -p vcf dbsnp_138.pgx_targets.vcf.gz
+```
+
+The padding covers the `get_padded_bed` padding (100 bp) used for variant calling.
+
 ## :white_check_mark: Testing
 
 The workflow repository contains a small test dataset `.tests/integration` which can be run like so:
