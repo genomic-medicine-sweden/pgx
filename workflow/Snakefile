@@ -1,6 +1,6 @@
-__author__ = "Joel Ås, Massimiliano Volpe, Chelsea Ramsin & Lauri Mesilaakso"
-__copyright__ = "Copyright 2022, Joel Ås, Massimiliano Volpe, Chelsea Ramsin & Lauri Mesilaakso"
-__email__ = "massimiliano.volpe@liu.se, chelsea.ramsin@regionostergotland.se & lauri.mesilaakso@regionostergotland.se"
+__author__ = "Joel Ås, Massimiliano Volpe, Chelsea Ramsin, Lauri Mesilaakso & Jonas Almlöf"
+__copyright__ = "Copyright 2022, Joel Ås, Massimiliano Volpe, Chelsea Ramsin, Lauri Mesilaakso & Jonas Almlöf"
+__email__ = "massimiliano.volpe@liu.se, chelsea.ramsin@regionostergotland.se, lauri.mesilaakso@regionostergotland.se & jonas.almlof@scilifelab.uu.se"
 __license__ = "GPL-3"
 
 
@@ -26,7 +26,12 @@ rule all:
 
 module prealignment:
     snakefile:
-        github("hydra-genetics/prealignment", path="workflow/Snakefile", tag="v1.1.0")
+        get_module_snakefile(
+            config,
+            "hydra-genetics/prealignment",
+            path="workflow/Snakefile",
+            tag=config["modules"]["prealignment"],
+        )
     config:
         config
 
@@ -36,7 +41,12 @@ use rule * from prealignment as prealignment_*
 
 module alignment:
     snakefile:
-        github("hydra-genetics/alignment", path="workflow/Snakefile", tag="v0.4.0")
+        get_module_snakefile(
+            config,
+            "hydra-genetics/alignment",
+            path="workflow/Snakefile",
+            tag=config["modules"]["alignment"],
+        )
     config:
         config
 
@@ -46,7 +56,12 @@ use rule * from alignment as alignment_*
 
 module snv_indels:
     snakefile:
-        github("hydra-genetics/snv_indels", path="workflow/Snakefile", tag="v0.3.0")
+        get_module_snakefile(
+            config,
+            "hydra-genetics/snv_indels",
+            path="workflow/Snakefile",
+            tag=config["modules"]["snv_indels"],
+        )
     config:
         config
 

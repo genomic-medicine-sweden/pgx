@@ -14,8 +14,9 @@ from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
 from hydra_genetics import min_version as hydra_min_version
 from hydra_genetics.utils.misc import extract_chr
+from hydra_genetics.utils.misc import get_module_snakefile
 
-hydra_min_version("0.11.0")
+hydra_min_version("4.1.1")
 
 min_version("6.8.0")
 

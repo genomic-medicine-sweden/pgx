@@ -60,6 +60,17 @@ HPC clusters, it is recommended to use a cluster profile and run something like:
 snakemake -s /path/to/Snakefile --profile my-awesome-profile
 ```
 
+### Without internet access
+
+The hydra-genetics module versions (git tags) are set under `modules` in `config/config.yaml`. The modules are fetched from GitHub by default. To use local clones instead, set
+`hydra_local_path` in the config to a folder with clones of `prealignment`, `alignment` and `snv_indels`.
+The module versions are read from the local clones by tag, so the clones must contain the tags set under
+`modules`.
+
+```yaml
+hydra_local_path: "/path/to/hydra-genetics"  # with /path/to/hydra-genetics/prealignment etc.
+```
+
 ## :judge: Rule Graph
 
 ![rule_graph](https://github.com/genomic-medicine-sweden/pgx/blob/develop/images/dag.svg)
