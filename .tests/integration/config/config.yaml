@@ -3,6 +3,11 @@ samples: "samples.tsv"
 units: "units.tsv"
 output: "../../config/output_files.yaml"
 
+modules:
+  alignment: "v0.4.0"
+  prealignment: "v1.1.0"
+  snv_indels: "v0.3.0"
+
 default_container: "docker://hydragenetics/common:0.3.0"
 
 trimmer_software: "fastp_pe"
