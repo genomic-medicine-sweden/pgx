@@ -16,32 +16,21 @@ jobs:
     name: integration small data set singularity
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Miniforge
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-            miniforge-version: latest
-            activate-environment: my-env
-            use-mamba: true
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
-      - name: Set strict channels
-        run: |
-          conda config --set channel_priority strict
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+      - name: Install Apptainer
+        uses: eWaterCycle/setup-apptainer@v2
+        with:
+          apptainer-version: 1.4.5
       - name: Install requirements.txt
         run: |
           pip install -r requirements.txt
       - name: Install requirements.test.txt
         run: |
           pip install -r requirements.test.txt
-      - name: Install singularity
-        run: |
-          mamba install -c conda-forge -c bioconda singularity=3.8.6
       - name: Integration test - small dataset
         working-directory: .tests/integration
         run: |
