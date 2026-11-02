@@ -12,11 +12,29 @@ properties:
   default_container:
     type: string
     description: name or path to a default docker/singularity container
+  hydra_local_path:
+    type: string
+    description: folder with local clones of the hydra-genetics modules, used instead of GitHub when set
+  modules:
+    type: object
+    description: hydra-genetics module versions (git tags)
+    properties:
+      alignment:
+        type: string
+      prealignment:
+        type: string
+      snv_indels:
+        type: string
+    required:
+      - alignment
+      - prealignment
+      - snv_indels
 required:
   - samples
   - units
   - resources
   - default_container
+  - modules
 
 padd_target_regions:
     type: object
