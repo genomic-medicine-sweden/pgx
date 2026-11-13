@@ -33,7 +33,7 @@ rule depth_of_baits:
     message:
         "{rule}: get read depth of baits on {input.bam}"
     wrapper:
-        "v1.14.1/bio/gatk/depthofcoverage"
+        "v9.8.0/bio/gatk/depthofcoverage"
 
 
 rule depth_of_targets:
@@ -65,4 +65,4 @@ rule depth_of_targets:
     message:
         "{rule}: get read depth of variant locations at wildtrype-called positions on {input.bam}"
     wrapper:
-        "v1.14.1/bio/gatk/depthofcoverage"
+        "v9.8.0/bio/gatk/depthofcoverage"

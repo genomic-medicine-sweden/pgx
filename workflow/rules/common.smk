@@ -3,9 +3,15 @@ __copyright__ = "Copyright 2022, Joel Ås, Massimiliano Volpe, Chelsea Ramsin & 
 __email__ = "massimiliano.volpe@liu.se, chelsea.ramsin@regionostergotland.se & lauri.mesilaakso@regionostergotland.se"
 __license__ = "GPL-3"
 
+import json
+import linecache
+import pathlib
+import re
+import sys
+import typing
+
 import pandas as pd
 import yaml
-import pathlib
 from snakemake.utils import validate
 from snakemake.utils import min_version
 
@@ -17,9 +23,12 @@ from hydra_genetics.utils.misc import extract_chr
 from hydra_genetics.utils.misc import get_module_snakefile
 from hydra_genetics.utils.misc import replace_dict_variables
 
-hydra_min_version("4.1.1")
+# TODO: restore hydra_min_version("4.1.1") once a hydra-genetics release with Snakemake 9 /
+# Python 3.12 support exists. The migration branch pinned in requirements.txt reports
+# 3.4.1.devN, so the 4.1.1 floor cannot be asserted during the migration.
+hydra_min_version("3.4.0")
 
-min_version("6.8.0")
+min_version("9.0.0")
 
 # Set and validate config file
 if not workflow.overwrite_configfiles:
@@ -41,7 +50,7 @@ design = pd.read_table(config.get("reference", {}).get("design_bed", ""), dtype=
 
 # Read and validate units file
 units = (
-    pandas.read_table(config["units"], dtype=str)
+    pd.read_table(config["units"], dtype=str)
     .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
     .sort_index()
 )
@@ -71,7 +80,7 @@ def get_choromosomes(genomic_regions: pd.DataFrame) -> typing.List[str]:
 
 # Set wildcard constraints
 wildcard_constraints:
-    sample="|".join(samples.index),
+    sample="|".join(re.escape(s) for s in samples.index),
     chr="[^_]+",
     type="N|T|R",
 
@@ -93,8 +102,18 @@ def compile_output_file_list(wildcards):
             ]
         )
         for op in outputpaths:
-            output_files.append(outdir / Path(op))
+            output_files.append(outdir / pathlib.Path(op))
     return output_files
+
+
+class _IdentityLineMap(dict):
+    """Line mapping for generated code, whose compiled and source line numbers are the same."""
+
+    def __contains__(self, lineno):
+        return True
+
+    def __missing__(self, lineno):
+        return lineno
 
 
 def generate_copy_rules(output_spec):
@@ -123,15 +142,15 @@ def generate_copy_rules(output_spec):
                 f'@workflow.output("{output_file}")',
                 f'@workflow.log("logs/{rule_name}_{output_file.name}.log")',
                 f'@workflow.container("{copy_container}")',
-                f'@workflow.resources(time="{time}", threads={threads}, mem_mb="{mem_mb}", '
+                f'@workflow.resources(time="{time}", threads={threads}, mem_mb={mem_mb}, '
                 f'mem_per_cpu={mem_per_cpu}, partition="{partition}")',
                 f'@workflow.shellcmd("{copy_container}")',
                 "@workflow.run\n",
                 f"def __rule_{rule_name}(input, output, params, wildcards, threads, resources, "
-                "log, version, rule, conda_env, container_img, singularity_args, use_singularity, "
+                "log, rule, conda_env, container_img, singularity_args, use_singularity, "
                 "env_modules, bench_record, jobid, is_shell, bench_iteration, cleanup_scripts, "
-                "shadow_dir, edit_notebook, conda_base_path, basedir, runtime_sourcecache_path, "
-                "__is_snakemake_rule_func=True):",
+                "shadow_dir, edit_notebook, conda_base_path, basedir, sourcecache_path, "
+                "runtime_sourcecache_path, runtime_paths, __is_snakemake_rule_func=True):",
                 '\tshell("(cp {input[0]} {output[0]}) &> {log}", bench_record=bench_record, '
                 "bench_iteration=bench_iteration)\n\n",
             ]
@@ -139,7 +158,17 @@ def generate_copy_rules(output_spec):
 
         rulestrings.append(rule_code)
 
-    exec(compile("\n".join(rulestrings), "copy_result_files", "exec"), workflow.globals)
+    code = "\n".join(rulestrings)
+    source_name = "copy_result_files"
+
+    # Snakemake 9 derives rule.run_func_src for the "code" rerun trigger by looking the compiled
+    # filename up in workflow.linemaps and reading the lines back through linecache. Neither knows
+    # about source we compile ourselves, so register it in both. The generated source is its own
+    # original, so compiled and source line numbers coincide.
+    linecache.cache[source_name] = (len(code), None, code.splitlines(True), source_name)
+    workflow.linemaps[source_name] = _IdentityLineMap()
+
+    exec(compile(code, source_name, "exec"), workflow.globals)
 
 
 generate_copy_rules(output_spec)

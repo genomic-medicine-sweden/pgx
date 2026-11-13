@@ -1,9 +1,11 @@
 jobs: 100
 keep-going: True
-restart-times: 2
+retries: 2
 rerun-incomplete: True
-use-singularity: True
-#singularity-args: "-e --cleanenv -B /projects -B /data -B /beegfs-storage" #Locally dependent arguments for singularities
-#singularity-prefix: "/projects/wp4/nobackup/singularity_cache/" #Local path to the singularity cache
-drmaa: " -N 1-1 -t {resources.time} -n {resources.threads} --mem={resources.mem_mb} --mem-per-cpu={resources.mem_per_cpu} --mem-per-cpu={resources.mem_per_cpu} --partition={resources.partition} -J {rule} -e slurm_out/{rule}_%j.err -o slurm_out/{rule}_%j.out"
+software-deployment-method: apptainer
+#apptainer-args: "-e --cleanenv -B /projects -B /data -B /beegfs-storage" #Locally dependent arguments for apptainer
+#apptainer-prefix: "/projects/wp4/nobackup/singularity_cache/" #Local path to the apptainer image cache
+# Requires the executor plugin: pip install snakemake-executor-plugin-drmaa
+executor: drmaa
+drmaa-args: " -N 1-1 -t {resources.time} -n {resources.threads} --mem={resources.mem_mb} --mem-per-cpu={resources.mem_per_cpu} --partition={resources.partition} -J {rule} -e slurm_out/{rule}_%j.err -o slurm_out/{rule}_%j.out"
 drmaa-log-dir: "slurm_out"

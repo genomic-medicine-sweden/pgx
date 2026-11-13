@@ -4,16 +4,16 @@ units: "units.tsv"
 output: "../../config/output_files.yaml"
 
 modules:
-  alignment: "v0.4.0"
-  prealignment: "v1.1.0"
-  snv_indels: "v0.3.0"
+  alignment: "migrate-to-snakemake9-rb"
+  prealignment: "migrate-to-snakemake9"
+  snv_indels: "migrate-to-snakemake9"
 
 default_container: "docker://hydragenetics/common:0.3.0"
 
 trimmer_software: "fastp_pe"
 
 bwa_mem:
-  container: "docker://hydragenetics/bwa_mem:0.7.17"
+  container: "docker://hydragenetics/bwa:0.7.17-s9"
   amb: "reference/hg19.chr6.fasta.amb"
   ann: "reference/hg19.chr6.fasta.ann"
   bwt: "reference/hg19.chr6.fasta.bwt"
@@ -21,30 +21,30 @@ bwa_mem:
   sa: "reference/hg19.chr6.fasta.sa"
 
 fastp_pe:
-  container: "docker://hydragenetics/fastp:0.20.1"
+  container: "docker://hydragenetics/fastp:0.20.1-s9"
 
 picard_mark_duplicates:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "docker://hydragenetics/picard:3.5.0"
 
 haplotypecaller:
-  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
   extra: "--dbsnp reference/dbsnp_138.sub.vcf.gz --standard-min-confidence-threshold-for-calling 1.0"
 
 get_padded_bed:
   padding: 100
 
 picard_mark_duplicates:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "docker://hydragenetics/picard:3.5.0"
 
 snv_indels_haplotypecaller:
-  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 variant_filtration:
   read_ratio: 0.2
   read_depth: 100
 
 variant_annotator:
-  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
 
 detected_variants:
   file_type: "VCF"
@@ -57,11 +57,11 @@ get_padded_baits:
   file_format: "list"
 
 depth_of_baits:
-  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
   extra: "--output-format TABLE"
 
 depth_of_targets:
-  container: "docker://hydragenetics/gatk4:4.1.9.0"
+  container: "docker://hydragenetics/gatk4:4.1.9.0-s9"
   extra: "--output-format TABLE"
 
 append_id_to_gdf:

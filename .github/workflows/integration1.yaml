@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.10
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Apptainer
         uses: eWaterCycle/setup-apptainer@v2
       - name: Install requirements.txt
@@ -32,4 +32,4 @@ jobs:
       - name: Integration test - small dataset
         working-directory: .tests/integration
         run: |
-          snakemake -s ../../workflow/Snakefile -j 1 --configfile config/config.yaml --show-failed-logs --use-singularity --singularity-args  " --cleanenv --bind /home/runner "
+          snakemake -s ../../workflow/Snakefile -j 1 --configfile config/config.yaml --show-failed-logs --software-deployment-method apptainer --apptainer-args " --cleanenv --bind /home/runner "
